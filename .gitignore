@@ -1,0 +1,21 @@
+# ---- Python bytecode ----
+__pycache__/
+*.pyc
+*.pyo
+
+# ---- Virtual environments ----
+.venv/
+venv/
+env/
+
+# ---- OCR cache (auto-regenerates, no need to commit) ----
+cache/*.json
+# Keep the folder itself so the app can write to it
+!cache/.gitkeep
+
+# ---- Large scan uploads (user data, not code) ----
+static/scans/
+
+# ---- Leftover debug files ----
+overlay*.png
+benchmark_results.csv

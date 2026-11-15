@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SBSI Field Service Report Management System</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%231560e8%22/></svg>">
+<style>
+:root{color-scheme:light;--navy:#081B2C;--navy2:#102A43;--blue:#102A43;--blue-soft:#DCD7C7;--bg:#E9E4D6;--card:#F5F2EA;--text:#081B2C;--muted:#3C5A73;--line:#C7BFAE;--green:#2F7A55;--green-soft:#D3E2D0;--orange:#A85E14;--orange-soft:#F0DCC0;--red:#B03A3A;
+box-sizing:border-box}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;height:100%}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--text);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.app{display:grid;grid-template-columns:218px 1fr;height:100vh;overflow:hidden}
+aside{background:var(--navy);color:#fff;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.logo{padding:26px 16px 22px;text-align:center;font-size:14px;line-height:1.5;border-bottom:1px solid #ffffff1f}
+.logo b{display:block;font-size:34px;letter-spacing:1px;font-style:italic;margin-bottom:6px}
+nav{padding:10px 6px;flex:1}
+nav a{display:flex;align-items:center;gap:14px;color:#E9E4D6;text-decoration:none;padding:13px 16px;margin-bottom:2px;border-radius:6px;font-size:14.5px}
+nav a:hover{background:#ffffff14}
+nav a.on{background:#3C5A73;color:#fff}
+nav .badge{margin-left:auto;background:var(--red);color:#fff;font-size:11px;border-radius:99px;padding:2px 7px}
+nav hr{border:0;border-top:1px solid #ffffff1f;margin:12px 8px}
+.me{padding:16px;display:flex;gap:10px;align-items:center;border-top:1px solid #ffffff1f;font-size:13px}
+.me small{display:block;color:#C7BFAE}
+.av{width:36px;height:36px;border-radius:50%;background:#3C5A73;display:grid;place-items:center;font-weight:700;color:#fff;flex:none}
+main{min-width:0;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.top{display:flex;gap:16px;align-items:center;background:var(--card);padding:14px 24px;border-bottom:1px solid var(--line);flex:none}
+.top input{flex:1;max-width:640px;padding:12px 16px;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:8px;font:inherit}
+.top .sp{flex:1}
+.av.dark{background:var(--navy);width:40px;height:40px}
+.page{padding:22px 24px;flex:1;min-height:0;overflow-y:auto}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+h1{margin:0;font-size:26px}
+.head p{margin:4px 0 0;color:var(--muted)}
+.btn{background:var(--blue);color:#fff;border:0;padding:12px 22px;border-radius:8px;font:600 15px inherit;font-family:inherit;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:var(--card);color:var(--text);border:1px solid var(--line)}
+.btn.danger{background:var(--red);color:#fff}
+:focus-visible{outline:3px solid #3C5A73;outline-offset:2px}
+.layout{display:grid;grid-template-columns:1fr 280px;gap:18px;align-items:start}
+#v-dashboard.on{display:flex;flex-direction:column;min-height:0;height:100%;overflow:hidden}
+#v-dashboard .head{flex:none}
+#v-dashboard .layout{flex:1;min-height:0;align-items:stretch}
+.dash-main{display:flex;flex-direction:column;min-height:0;min-width:0}
+.dash-main .stats{flex:none}
+.dash-chart{flex:1;min-height:0;display:flex;flex-direction:column;margin-bottom:0}
+.dash-chart>.row{flex:none}
+.dash-chart>.legend{flex:none}
+.dash-chart>svg.chart{flex:1;min-height:0;width:100%;height:100%}
+#miniChat{height:100%;min-height:0;min-width:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.stat{display:flex;gap:12px;align-items:center}
+.ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:20px;background:var(--blue-soft);flex:none}
+.stat b{font-size:28px;display:block;line-height:1.1}
+.stat span{color:var(--muted);font-size:14px}
+.trend{margin-top:10px;font-size:13px;font-weight:600;color:var(--green);text-align:right}
+.trend.down{color:var(--red)}
+.card h2{font-size:18px;margin:0 0 12px}
+.tabs button{border:0;background:none;color:var(--muted);padding:6px 12px;border-radius:6px;font:600 13px inherit;font-family:inherit;cursor:pointer}
+.tabs button.on{background:var(--blue-soft);color:var(--blue)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.legend{display:flex;gap:18px;justify-content:center;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+svg.chart{width:100%;height:auto;display:block}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+th{text-align:left;color:var(--muted);font-weight:600;padding:10px 12px;background:var(--bg)}
+td{padding:11px 12px;border-bottom:1px solid var(--line)}
+.pill{display:inline-block;padding:4px 14px;border-radius:99px;font-size:13px;font-weight:600}
+.Confirmed{background:var(--green-soft);color:var(--green)}
+.Review{background:var(--orange-soft);color:var(--orange)}
+.Processing{background:var(--blue-soft);color:var(--blue)}
+.vbtn{background:var(--blue-soft);color:var(--blue);border:0;border-radius:6px;padding:5px 16px;cursor:pointer;font:inherit;font-size:13px}
+.vbtn.edit{background:var(--orange-soft);color:var(--orange);margin-left:4px}
+.flow{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;overflow-x:auto;padding-bottom:4px}
+.flow div{text-align:center;font-size:13.5px;font-weight:600;min-width:80px}
+.flow div span{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--blue-soft);margin:0 auto 6px;font-size:20px}
+.flow em{color:var(--muted);font-style:normal;align-self:center;font-size:20px}
+.chat{display:flex;flex-direction:column}
+#miniChat{height:520px}
+#v-assistant.on{display:flex;flex-direction:column;height:100%;padding:0}
+#v-assistant #bigChat{flex:1;min-height:0;border-radius:0;border-left:0;border-right:0;border-bottom:0;padding:0}
+.chat .hd{display:flex;justify-content:space-between;align-items:center;font-weight:700;margin-bottom:10px;padding:16px 20px;border-bottom:1px solid var(--line);flex:none}
+#v-assistant #bigChat .hd{padding:14px 24px}
+#v-assistant #bigChat .msgs{padding:16px 24px}
+#v-assistant #bigChat .chips{padding:0 24px}
+#v-assistant #bigChat .send{padding:12px 24px 16px;margin:0;border-top:1px solid var(--line)}
+.on-dot{font-weight:500;font-size:13px;border:1px solid var(--line);border-radius:99px;padding:3px 10px}
+.on-dot::before{content:"";display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;margin-right:6px}
+.chat-clear{background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 10px;font:inherit;font-size:12px;cursor:pointer;transition:background .15s,color .15s}
+.chat-clear:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px 2px;min-height:0}
+.m{max-width:88%;padding:9px 12px;border-radius:12px;font-size:13.5px;line-height:1.4;background:var(--bg)}
+.m.u{align-self:flex-end;background:var(--blue);color:#fff}
+.chips{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin:8px 0}
+.chip{background:var(--blue-soft);color:var(--blue);border:0;border-radius:8px;padding:8px 12px;font:600 13px inherit;font-family:inherit;cursor:pointer;text-align:left}
+.send{display:flex;gap:6px;margin-top:8px}
+.send input{flex:1;min-width:0;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font:inherit}
+.send button{width:42px;border:0;background:var(--blue);color:#fff;border-radius:8px;cursor:pointer;font-size:16px}
+.qa{display:grid;gap:8px}
+.qa .btn{padding:9px;font-size:13.5px}
+.drop{border:2px dashed var(--line);border-radius:16px;padding:56px 24px;text-align:center;background:var(--bg);cursor:pointer;transition:border-color .2s,background .2s;display:flex;flex-direction:column;align-items:center;gap:10px}
+.drop:hover,.drop.drag{border-color:var(--blue);background:var(--blue-soft)}
+.drop .drop-icon{width:64px;height:64px;border-radius:50%;background:var(--blue-soft);display:grid;place-items:center;margin-bottom:4px;flex:none}
+.drop b{font-size:17px;font-weight:700}
+.drop .drop-sub{font-size:13.5px;color:var(--muted)}
+.drop .drop-types{display:flex;gap:8px;margin-top:4px}
+.drop .drop-types span{padding:4px 12px;border-radius:99px;border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--muted);background:var(--card)}
+.steps{display:flex;gap:0;margin-top:0;flex-wrap:nowrap;align-items:center}
+.steps span{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:0;font-size:13px;font-weight:600;color:var(--muted);background:transparent;position:relative;flex:1;justify-content:center}
+.steps span::before{content:attr(data-n);width:24px;height:24px;border-radius:50%;background:var(--bg);border:2px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;flex:none;transition:background .2s,border-color .2s}
+.steps span:not(:last-child)::after{content:"";position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:10px solid var(--line);z-index:1}
+.steps span.done{color:var(--green)}.steps span.done::before{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.steps span.now{color:var(--blue)}.steps span.now::before{background:var(--blue-soft);border-color:var(--blue);color:var(--blue)}
+.up-status{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+.up-status svg{flex:none;color:var(--blue)}
+.up-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.up-info{display:flex;flex-direction:column;gap:12px}
+.up-info-item{display:flex;gap:12px;align-items:flex-start}
+.up-info-item .up-info-ico{width:38px;height:38px;border-radius:10px;background:var(--blue-soft);display:grid;place-items:center;flex:none;color:var(--blue)}
+.up-info-item h4{margin:0 0 2px;font-size:14px;font-weight:700}
+.up-info-item p{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
+.fil{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.fil select,.fil input{padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--text);font:inherit}
+svg.i{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.25em}
+.ico{color:var(--blue)}.ico svg{width:22px;height:22px}
+.flow span{color:var(--blue)}.flow span svg{width:22px;height:22px}
+.drop{color:var(--blue)}.drop .drop-icon svg{width:28px;height:28px}.drop b,.drop .drop-sub{color:var(--text)}
+.send button svg{width:18px;height:18px}
+.fil select:disabled{opacity:.5;cursor:not-allowed}
+.view{display:none}.view.on{display:block}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));right:20px;background:var(--navy);color:#fff;padding:12px 18px;border-radius:8px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+
+/* --- Report Detail Dialog (full-screen side-by-side) --- */
+dialog{border:0;border-radius:14px;background:var(--card);color:var(--text);width:96vw;max-width:1200px;height:90vh;max-height:90vh;margin:auto;padding:0;display:none;flex-direction:column;box-shadow:0 24px 64px #0004}
+dialog[open]{display:flex}
+dialog::backdrop{background:#0008}
+.dlg-topbar{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--navy);color:#fff;flex:none;border-radius:13px 13px 0 0}
+.dlg-topbar h2{margin:0;font-size:17px;font-weight:700;color:#fff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dlg-topbar .pill{flex:none}
+.dlg-topbar .btn-close{background:none;border:1px solid #ffffff40;color:#fff;border-radius:6px;padding:6px 14px;cursor:pointer;font:600 13px inherit;font-family:inherit}
+.dlg-topbar .btn-close:hover{background:#ffffff1a}
+.dlg-body{flex:1;display:grid;grid-template-columns:1fr 1fr;min-height:0}
+.dlg-scan{background:var(--bg);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.dlg-scan-label{padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);flex:none;background:var(--card)}
+.dlg-scan-content{flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;cursor:grab;user-select:none;background:var(--bg)}
+.dlg-scan-content.grabbing{cursor:grabbing}
+.dlg-scan-img{display:flex;align-items:center;justify-content:center;width:100%;height:100%;position:relative}
+.dlg-scan-img img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;box-shadow:0 4px 20px #0002;transform-origin:0 0;display:block}
+/* zoom toolbar */
+.zoom-bar{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;align-items:center;background:var(--navy);border-radius:99px;padding:5px 10px;z-index:10;box-shadow:0 2px 12px #0004}
+.zoom-bar button{background:none;border:0;color:#fff;cursor:pointer;font-size:17px;line-height:1;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;transition:background .15s}
+.zoom-bar button:hover{background:#ffffff22}
+.zoom-bar span{color:#ffffffcc;font-size:12px;font-weight:600;min-width:38px;text-align:center}
+.dlg-scan-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;color:var(--muted);padding:32px 24px}
+.dlg-scan-placeholder svg{width:48px;height:48px;color:var(--line)}
+.dlg-scan-placeholder strong{color:var(--text);font-size:15px}
+.dlg-scan-placeholder p{margin:0;font-size:13px;line-height:1.5}
+.dlg-fields{display:flex;flex-direction:column;min-height:0}
+.dlg-fields-body{flex:1;overflow-y:auto;padding:18px 20px}
+.dlg-foot{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;background:var(--card);flex:none;border-radius:0 0 13px 0}
+
+/* Edit notice banner */
+.edit-banner{background:var(--orange-soft);color:var(--orange);border:1px solid #d4943a40;border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.edit-banner svg{flex:none}
+
+/* NLP confidence badges on view mode */
+.nlp-ok{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:99px;margin-left:6px;vertical-align:middle}
+.nlp-ok.good{background:var(--green-soft);color:var(--green)}
+.nlp-ok.warn{background:var(--orange-soft);color:var(--orange)}
+.nlp-ok.fail{background:#fce8e8;color:var(--red)}
+.nlp-ok.meas{background:var(--blue-soft);color:var(--blue)}
+
+/* Report summary sections */
+.rsec{margin-bottom:20px}
+.rsec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.rfields{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:13.5px}
+.rfields dt{color:var(--muted);font-weight:600;padding-top:2px}
+.rfields dd{margin:0;line-height:1.5}
+
+/* Edit fields */
+.edit-field{width:100%;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);font:inherit;font-size:13.5px;resize:vertical;transition:border-color .15s}
+.edit-field:focus{border-color:var(--blue);outline:none}
+.edit-field.multiline{min-height:72px}
+.edit-hint{font-size:12px;color:var(--muted);margin:4px 0 0;font-style:italic}
+/* Job-type cascading selects */
+.jt-wrap{display:flex;flex-direction:column;gap:6px}
+.jt-wrap select{width:100%;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);font:inherit;font-size:13.5px}
+.jt-wrap select:focus{border-color:var(--blue);outline:none}
+.jt-wrap select:disabled{opacity:.45;cursor:not-allowed}
+.jt-extra{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.jt-extra input{flex:1;padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--text);font:inherit;font-size:13px}
+.jt-extra input:focus{border-color:var(--blue);outline:none}
+
+/* Items list (spare parts) */
+.items-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+.items-table th{text-align:left;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line)}
+.items-table td{padding:6px 8px;border-bottom:1px solid var(--line)}
+
+@media (max-width:1100px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}#v-dashboard.on{display:block;height:auto;overflow:visible}.dash-main{display:block}.dash-chart{flex:none;height:auto;margin-bottom:16px}.up-layout{grid-template-columns:1fr}}
+@media (max-width:900px){
+  .dlg-body{grid-template-columns:1fr}
+  .dlg-scan{display:none}
+}
+@media (max-width:760px){.app{grid-template-columns:1fr}aside{position:static;height:auto}nav{display:flex;overflow-x:auto;padding:6px}nav a{white-space:nowrap;padding:10px 12px}nav hr,.me{display:none}.logo{padding:12px}.logo b{display:inline;font-size:22px;margin-right:8px}.page{padding:16px}.top{padding:10px 16px}
+.rfields{grid-template-columns:1fr}
+.rfields dt{font-size:12px;margin-top:6px}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M16 16l-4-4-4 4M12 12v9"/><path d="M20.4 18.4A5 5 0 0 0 18 9h-1.3A8 8 0 1 0 3 16.3"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 13v2M15 13v2"/></symbol>
+<symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 12h8"/></symbol>
+<symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 21V10M12 21V3M19 21v-7"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></symbol>
+</defs></svg>
+
+<div class="app">
+<aside>
+  <div class="logo"><b>SBSI</b>Field Service Report<br>Management System</div>
+  <nav aria-label="Main">
+    <a href="#dashboard" data-v="dashboard"><svg class="i"><use href="#i-home"/></svg> Dashboard</a>
+    <a href="#reports" data-v="reports"><svg class="i"><use href="#i-doc"/></svg> All Reports</a>
+    <a href="#upload" data-v="upload"><svg class="i"><use href="#i-upload"/></svg> Upload Reports</a>
+    <a href="#review" data-v="review"><svg class="i"><use href="#i-edit"/></svg> For Review <span class="badge" id="navCount">12</span></a>
+    <a href="#assistant" data-v="assistant"><svg class="i"><use href="#i-bot"/></svg> AI Assistant</a>
+  </nav>
+</aside>
+
+<main>
+  <div class="top">
+    <span class="sp"></span>
+  </div>
+
+  <div class="page">
+
+  <!-- DASHBOARD -->
+  <section class="view" id="v-dashboard">
+    <div class="head"><div><h1>Welcome back, Administrator!</h1><p>Here's an overview of your field service reports.</p></div>
+      <button class="btn" onclick="go('upload')"><svg class="i"><use href="#i-upload"/></svg> Upload Report</button></div>
+    <div class="layout">
+      <div class="dash-main">
+        <div class="stats">
+          <div class="card"><div class="stat"><div class="ico"><svg class="i"><use href="#i-doc"/></svg></div><div><b id="sTotal">0</b><span>Total Reports</span></div></div></div>
+          <div class="card"><div class="stat"><div class="ico"><svg class="i"><use href="#i-upload"/></svg></div><div><b id="sUp">0</b><span>Uploaded Reports</span></div></div></div>
+          <div class="card"><div class="stat"><div class="ico" style="background:var(--orange-soft);color:var(--orange)"><svg class="i"><use href="#i-clock"/></svg></div><div><b id="sPend">0</b><span>Pending Review</span></div></div></div>
+          <div class="card"><div class="stat"><div class="ico" style="background:var(--green-soft);color:var(--green)"><svg class="i"><use href="#i-check"/></svg></div><div><b id="sConf">0</b><span>Confirmed Reports</span></div></div></div>
+        </div>
+        <div class="card dash-chart">
+          <div class="row"><h2 style="margin:0"><svg class="i" style="color:var(--blue)"><use href="#i-chart"/></svg> Report Activity</h2>
+            <div class="tabs" id="rangeTabs"><button data-r="7">7D</button><button data-r="30">30D</button><button data-r="90">90D</button><button data-r="all" class="on">All Time</button></div></div>
+          <div class="legend"><span><i style="background:var(--blue)"></i>Uploaded</span><span><i style="background:var(--green)"></i>Confirmed</span></div>
+          <svg class="chart" id="chart" viewBox="0 0 700 240" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Line chart of uploaded and confirmed reports"></svg>
+        </div>
+      </div>
+      <div class="card chat" id="miniChat"></div>
+    </div>
+  </section>
+
+  <!-- ALL REPORTS -->
+  <section class="view" id="v-reports">
+    <div class="head"><div><h1>All Reports</h1><p>Browse, filter, and open every field service report.</p></div><button class="btn ghost" onclick="exportCsv()">Export Reports</button></div>
+    <div class="card"><div class="fil"><select id="fStatus" aria-label="Filter by status"><option value="">All statuses</option><option>Confirmed</option><option>For Review</option><option>Processing</option></select><select id="fSec" aria-label="Filter by section"><option value="">All sections</option><option>Job Type</option></select><select id="fCat" aria-label="Filter by specific field" disabled></select><select id="fSub" aria-label="Filter by sub-field" disabled></select><input id="fText" placeholder="Filter by ID or client" aria-label="Filter reports"></div>
+    <div class="tw"><table><thead><tr><th>Report ID</th><th>Client / Hospital</th><th>Service Date</th><th>Job Type</th><th>Status</th><th>Action</th></tr></thead><tbody id="allBody"></tbody></table></div></div>
+  </section>
+
+  <!-- UPLOAD -->
+  <section class="view" id="v-upload">
+    <div class="head"><div><h1>Upload Reports</h1><p>Add scanned or PDF field service reports for AI-powered processing.</p></div></div>
+    <div class="up-layout">
+      <!-- Left: drop zone + progress -->
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card" style="padding:20px">
+          <label class="drop" for="file" id="drop">
+            <div class="drop-icon"><svg class="i"><use href="#i-upload"/></svg></div>
+            <b>Drop files here or click to browse</b>
+            <span class="drop-sub">Drag and drop your field service reports to get started</span>
+            <div class="drop-types"><span>PDF</span><span>JPG</span><span>PNG</span></div>
+          </label>
+          <input type="file" id="file" multiple accept=".pdf,.jpg,.jpeg,.png" hidden>
+        </div>
+        <div class="card" style="padding:16px 20px">
+          <p style="margin:0 0 12px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Processing Pipeline</p>
+          <div class="steps" id="steps">
+            <span data-n="1">Upload</span>
+            <span data-n="2">OCR</span>
+            <span data-n="3">NLP</span>
+            <span data-n="4">Review</span>
+          </div>
+          <div class="up-status" style="margin-top:12px">
+            <svg class="i"><use href="#i-doc"/></svg>
+            <span id="upMsg">No file selected yet. Choose a file above to begin.</span>
+          </div>
+        </div>
+      </div>
+      <!-- Right: how it works -->
+      <div class="card" style="padding:20px">
+        <h2 style="margin:0 0 16px;font-size:16px">How it works</h2>
+        <div class="up-info">
+          <div class="up-info-item">
+            <div class="up-info-ico"><svg class="i"><use href="#i-upload"/></svg></div>
+            <div><h4>1. Upload</h4><p>Select or drag in your PDF or image file. Multiple files are supported at once.</p></div>
+          </div>
+          <div class="up-info-item">
+            <div class="up-info-ico"><svg class="i"><use href="#i-scan"/></svg></div>
+            <div><h4>2. OCR Processing</h4><p>The system reads the scanned document and converts text to machine-readable data.</p></div>
+          </div>
+          <div class="up-info-item">
+            <div class="up-info-ico"><svg class="i"><use href="#i-cpu"/></svg></div>
+            <div><h4>3. NLP Extraction</h4><p>AI identifies key fields: institution, equipment, actions taken, spare parts, and more.</p></div>
+          </div>
+          <div class="up-info-item">
+            <div class="up-info-ico"><svg class="i"><use href="#i-edit"/></svg></div>
+            <div><h4>4. Review &amp; Confirm</h4><p>Low-confidence fields are flagged. You can correct errors before confirming the report.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR REVIEW -->
+  <section class="view" id="v-review">
+    <div class="head"><div><h1>For Review</h1><p>Check the extracted details, edit if needed, then confirm each report.</p></div></div>
+    <div class="card"><div class="tw"><table><thead><tr><th>Report ID</th><th>Client / Hospital</th><th>Service Date</th><th>Status</th><th>Action</th></tr></thead><tbody id="revBody"></tbody></table></div></div>
+  </section>
+
+  <!-- ASSISTANT -->
+  <section class="view" id="v-assistant">
+    <div class="card chat" id="bigChat"></div>
+  </section>
+
+  <section class="view" id="v-logout" style="display:none"></section>
+  </div>
+</main>
+</div>
+
+<!-- ===================== REPORT DETAIL DIALOG ===================== -->
+<dialog id="dlg" aria-modal="true" aria-labelledby="dTitle">
+  <div class="dlg-topbar">
+    <svg class="i" style="color:#aaa;flex:none"><use href="#i-doc"/></svg>
+    <h2 id="dTitle"></h2>
+    <span id="dPill"></span>
+    <button class="btn-close" onclick="dlg.close()">✕ Close</button>
+  </div>
+  <div class="dlg-body">
+    <div class="dlg-scan">
+      <div class="dlg-scan-label">Original Report</div>
+      <div class="dlg-scan-content" id="dScanArea"></div>
+    </div>
+    <div class="dlg-fields">
+      <div class="dlg-fields-body" id="dBody"></div>
+      <div class="dlg-foot" id="dFoot"></div>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* =====================================================================
+   DATA
+   Each report stores the fields that OCR/NLP would extract from the
+   physical form. Nothing copies the paper layout — just the content.
+   ===================================================================== */
+var reports = [];
+
+
+var STORAGE_KEY_PENDING = "sbsi_pending_reviews";
+
+function savePendingToStorage(){
+  try {
+    var pending = reports.filter(function(r){ return r.s === "For Review"; });
+    localStorage.setItem(STORAGE_KEY_PENDING, JSON.stringify(pending));
+  } catch(e) {
+    console.warn("Could not save pending reviews to storage:", e);
+  }
+}
+
+function loadPendingFromStorage(){
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY_PENDING);
+    if(!raw) return;
+    var list = JSON.parse(raw);
+    if(Array.isArray(list)){
+      list.forEach(function(r){
+        if(!reports.some(function(existing){ return existing.id === r.id; })){
+          /* Blob URLs from createObjectURL don't survive refresh — restore from server path */
+          if(r.scanUrl && r.scanUrl.startsWith("blob:")){
+            r.scanUrl = r.scanName ? (API + "/scans/" + encodeURIComponent(r.scanName)) : null;
+          }
+          reports.push(r);
+        }
+      });
+    }
+  } catch(e) {
+    console.warn("Could not load pending reviews from storage:", e);
+  }
+}
+
+/* =====================================================================
+   HELPERS
+   ===================================================================== */
+var $ = function(i){ return document.getElementById(i) };
+
+/* ---- Job type taxonomy (mirrors the physical form) ---- */
+var jobTree = {
+  "Preventive Maintenance": {
+    subs: ["Monthly PM","Quarterly PM","Six-Month PM","Yearly PM"],
+    extra: null
+  },
+  "Corrective Maintenance": {
+    subs: ["Repair 1","Repair 2","Repair 3","Repair 4"],
+    extra: null,
+    subSubs: { "Repair 1": ["Repair 1a","Repair 1b"] }   // sub-subs for Repair 1
+  },
+  "Equipment Handling": {
+    subs: ["Pack/Stock/Transfer","Uninstallation","Installation","Mode: Other"],
+    extra: { trigger: "Mode: Other", label: "Mode" }
+  },
+  "Result Validation": {
+    subs: ["Precision/Parallel","Calibration","Quality Control","Others"],
+    extra: { trigger: "Others", label: "Specify" }
+  },
+  "Updates/Training": {
+    subs: ["Equipment Updates","End-User Training","Monitoring/Visit","Others"],
+    extra: { trigger: "Others", label: "Specify" }
+  }
+};
+
+/* Status after service options */
+var statusOptions = ["Operational","For further monitoring","Non-Operational"];
+
+/* Build the cascading job-type widget (edit mode).
+   Reads/writes cur.data.jobType as a plain string like "Preventive Maintenance – Six-Month PM". */
+function buildJobTypeSelect(currentVal){
+  /* Parse the stored string back into category / sub / sub-sub / extra parts */
+  var cat = "", sub = "", subsub = "", extra = "";
+  if(currentVal && currentVal !== "—"){
+    var parts = currentVal.split(/\s*[–\-]\s*/);
+    cat = parts[0] ? parts[0].trim() : "";
+    sub = parts[1] ? parts[1].trim() : "";
+    subsub = parts[2] ? parts[2].trim() : "";
+    /* Repair 1a/1b live as sub of "Repair 1" */
+    if(sub && jobTree[cat] && jobTree[cat].subSubs){
+      var ssKeys = Object.keys(jobTree[cat].subSubs);
+      for(var i=0;i<ssKeys.length;i++){
+        if(sub === ssKeys[i] && subsub){ /* sub="Repair 1" subsub="Repair 1a" */ break; }
+        if(jobTree[cat].subSubs[ssKeys[i]].indexOf(sub) > -1){ subsub=sub; sub=ssKeys[i]; break; }
+      }
+    }
+    /* Handle extra (Mode: ...) */
+    var node = cat && jobTree[cat];
+    if(node && node.extra && sub === node.extra.trigger && subsub){ extra=subsub; subsub=""; }
+    if(node && node.extra){
+      var allSubs = node.subs;
+      if(allSubs.indexOf(sub) === -1 && sub){
+        /* sub didn't match a standard option: it must be the freetext after the trigger word */
+        extra = sub; sub = node.extra.trigger;
+      }
+    }
+  }
+
+  var catOpts = '<option value="">— select category —</option>'
+    + Object.keys(jobTree).map(function(k){ return '<option'+(k===cat?' selected':'')+'>'+esc(k)+'</option>'; }).join("");
+
+  var subOpts = '<option value="">— select sub-type —</option>';
+  if(cat && jobTree[cat]){
+    jobTree[cat].subs.forEach(function(s){
+      subOpts += '<option'+(s===sub?' selected':'')+'>'+esc(s)+'</option>';
+    });
+  }
+
+  var subSubOpts = "";
+  var showSubSub = cat && sub && jobTree[cat] && jobTree[cat].subSubs && jobTree[cat].subSubs[sub];
+  if(showSubSub){
+    subSubOpts = '<option value="">— select repair type —</option>';
+    jobTree[cat].subSubs[sub].forEach(function(s){
+      subSubOpts += '<option'+(s===subsub?' selected':'')+'>'+esc(s)+'</option>';
+    });
+  }
+
+  var showExtra = cat && sub && jobTree[cat] && jobTree[cat].extra && sub === jobTree[cat].extra.trigger;
+  var extraLabel = showExtra ? jobTree[cat].extra.label : "";
+
+  return '<div class="jt-wrap" id="jtWrap">'
+    +'<select id="jtCat" aria-label="Job type category">'+ catOpts +'</select>'
+    +'<select id="jtSub" aria-label="Job sub-type"'+(cat?'':' disabled')+'>'+ subOpts +'</select>'
+    +(showSubSub
+      ? '<select id="jtSubSub" aria-label="Repair sub-type">'+ subSubOpts +'</select>'
+      : '<select id="jtSubSub" aria-label="Repair sub-type" style="display:none" disabled></select>')
+    +(showExtra
+      ? '<div class="jt-extra"><label for="jtExtra">'+esc(extraLabel)+':</label><input id="jtExtra" value="'+esc(extra)+'"></div>'
+      : '<div class="jt-extra" id="jtExtraWrap" style="display:none"><label for="jtExtra"></label><input id="jtExtra" value=""></div>')
+    +'</div>';
+}
+
+/* Build the status-after-service select (edit mode) */
+function buildStatusSelect(currentVal){
+  var opts = '<option value="">— select status —</option>'
+    + statusOptions.map(function(s){
+        return '<option'+(s===currentVal?' selected':'')+'>'+esc(s)+'</option>';
+      }).join("");
+  return '<select class="edit-field" id="statusSel" data-key="statusAfter" aria-label="Status after service">'+ opts +'</select>';
+}
+
+/* Wire the cascading logic after the edit form is injected into the DOM */
+function wireJobTypeSelect(){
+  var cat = $("jtCat"), sub = $("jtSub"), subsub = $("jtSubSub"), extraWrap = document.querySelector(".jt-extra");
+
+  function readJobType(){
+    var c = cat.value, s = sub.value, ss = subsub && !subsub.disabled ? subsub.value : "", ex = $("jtExtra") ? $("jtExtra").value.trim() : "";
+    if(!c) return "";
+    var parts = [c];
+    if(s){ parts.push(s); }
+    if(ss){ parts.push(ss); }
+    if(ex && jobTree[c] && jobTree[c].extra && s === jobTree[c].extra.trigger){ parts[parts.length-1] = s+" "+ex; }
+    return parts.join(" – ");
+  }
+
+  /* Store back to cur.data on every change so collectEdits() doesn't need to scrape it separately */
+  function sync(){ if(cur) cur.data.jobType = readJobType(); }
+
+  cat.addEventListener("change", function(){
+    var c = cat.value, node = c ? jobTree[c] : null;
+    /* Rebuild sub options */
+    sub.innerHTML = '<option value="">— select sub-type —</option>'
+      + (node ? node.subs.map(function(s){ return '<option>'+esc(s)+'</option>'; }).join("") : "");
+    sub.disabled = !c;
+    /* Reset sub-sub and extra */
+    subsub.innerHTML = ""; subsub.style.display="none"; subsub.disabled=true;
+    if(extraWrap){ extraWrap.style.display="none"; }
+    sync();
+  });
+
+  sub.addEventListener("change", function(){
+    var c = cat.value, s = sub.value, node = c ? jobTree[c] : null;
+    /* Sub-sub (Repair 1 → 1a/1b) */
+    var ssMap = node && node.subSubs && node.subSubs[s];
+    if(ssMap){
+      subsub.innerHTML = '<option value="">— select repair type —</option>'
+        + ssMap.map(function(x){ return '<option>'+esc(x)+'</option>'; }).join("");
+      subsub.style.display=""; subsub.disabled=false;
+    } else {
+      subsub.innerHTML=""; subsub.style.display="none"; subsub.disabled=true;
+    }
+    /* Extra freetext */
+    if(node && node.extra && s === node.extra.trigger && extraWrap){
+      extraWrap.style.display="flex";
+      extraWrap.querySelector("label").textContent = node.extra.label+":";
+      if($("jtExtra")) $("jtExtra").value = "";
+    } else if(extraWrap){
+      extraWrap.style.display="none";
+      if($("jtExtra")) $("jtExtra").value = "";
+    }
+    sync();
+  });
+
+  if(subsub) subsub.addEventListener("change", sync);
+  if($("jtExtra")) $("jtExtra").addEventListener("input", sync);
+}
+
+/* Wire the status select so collectEdits() picks it up via data-key */
+function wireStatusSelect(){
+  var sel = $("statusSel");
+  if(!sel) return;
+  sel.addEventListener("change", function(){ if(cur) cur.data.statusAfter = sel.value; });
+}
+
+function cls(s){ return s === "For Review" ? "Review" : s }
+function pill(s){ return '<span class="pill '+cls(s)+'">'+s+'</span>' }
+function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") }
+function toast(t){
+  var e = $("toast");
+  e.textContent = t;
+  e.classList.add("show");
+  setTimeout(function(){ e.classList.remove("show") }, 2200)
+}
+
+/* =====================================================================
+   ROUTING
+   ===================================================================== */
+var views = ["dashboard","reports","upload","review","assistant"];
+function go(v){ location.hash = v }
+function route(){
+  var h = location.hash.slice(1);
+  if(views.indexOf(h) < 0) h = "dashboard";
+  views.forEach(function(v){ $("v-"+v).classList.toggle("on", v === h) });
+  document.querySelectorAll("nav a").forEach(function(a){ a.classList.toggle("on", a.dataset.v === h) });
+  window.scrollTo(0,0)
+}
+window.addEventListener("hashchange", route);
+
+/* =====================================================================
+   TABLE RENDERING
+   ===================================================================== */
+function rowHtml(r){
+  return '<tr><td>'+esc(r.id)+'</td><td>'+esc(r.client)+'</td><td>'+esc(r.date)+'</td>'
+        +'<td>'+pill(r.s)+'</td>'
+        +'<td><button class="vbtn" onclick="openR(\''+r.id+'\',false)">View</button>'
+        +(r.s==="For Review"?'<button class="vbtn edit" onclick="openR(\''+r.id+'\',true)">Edit</button>':'')
+        +'</td></tr>'
+}
+
+var base = {total:0, up:0, pend:0, conf:0};
+function render(){
+  var ft = $("fText").value.toLowerCase(),
+      fs = $("fStatus").value;
+  $("recent") && ($("recent").innerHTML = reports.slice(0,5).map(rowHtml).join(""));
+  var fc = $("fCat").value, fb = $("fSub").value;
+  $("allBody").innerHTML = reports.filter(function(r){
+    var t = (r.id+r.client).toLowerCase();
+    return (!fs||r.s===fs)&&(!fc||r.job===fc)&&(!fb||r.sub===fb)&&t.indexOf(ft)>-1
+  }).map(function(r){
+    return '<tr><td>'+esc(r.id)+'</td><td>'+esc(r.client)+'</td><td>'+esc(r.date)+'</td>'
+          +'<td>'+(r.job?r.job+' / '+r.sub:'Not set')+'</td><td>'+pill(r.s)+'</td>'
+          +'<td><button class="vbtn" onclick="openR(\''+r.id+'\',false)">View</button>'
+          +(r.s==="For Review"?'<button class="vbtn edit" onclick="openR(\''+r.id+'\',true)">Edit</button>':'')
+          +'</td></tr>'
+  }).join("") || '<tr><td colspan="6">No reports match. Clear the filters to see all reports.</td></tr>';
+  $("revBody").innerHTML = reports.filter(function(r){ return r.s==="For Review" }).map(rowHtml).join("")
+    || '<tr><td colspan="5">All caught up. No reports are waiting for review.</td></tr>';
+  var n = reports.filter(function(r){ return r.s==="For Review" }).length;
+  $("navCount").textContent = n; $("sPend").textContent = n;
+  document.querySelectorAll(".pc").forEach(function(e){ e.textContent = n });
+  /* Count ALL confirmed reports regardless of when they were confirmed */
+  var conf = reports.filter(function(r){ return r.s==="Confirmed" }).length;
+  $("sConf").textContent = conf;
+  $("sTotal").textContent = reports.length;
+  $("sUp").textContent = reports.filter(function(r){ return r.s !== "Processing" }).length;
+  /* Redraw chart with real data every time the report list changes */
+  drawFromReports(_activeRange);
+}
+
+["fText","fStatus"].forEach(function(i){
+  $(i).addEventListener("input", render)
+});
+function fillCat(){
+  var on = $("fSec").value === "Job Type", c = $("fCat");
+  c.innerHTML = '<option value="">All specific fields</option>'
+    + (on ? Object.keys(jobTree).map(function(k){ return '<option>'+k+'</option>' }).join("") : "");
+  c.disabled = !on; fillSub()
+}
+function fillSub(){
+  var s = $("fSub"), k = $("fCat").value;
+  var subs = k && jobTree[k] ? jobTree[k].subs : [];
+  s.innerHTML = '<option value="">All sub-fields</option>'
+    + subs.map(function(x){ return '<option>'+x+'</option>' }).join("");
+  s.disabled = !k
+}
+$("fSec").onchange = function(){ fillCat(); render() };
+$("fCat").onchange = function(){ fillSub(); render() };
+$("fSub").onchange = render;
+fillCat();
+
+/* =====================================================================
+   REPORT DETAIL DIALOG — side-by-side scan + extracted fields
+   ===================================================================== */
+var cur = null, editMode = false;
+var dlg = $("dlg");
+
+/* Render the left panel: uploaded scan image with pan + zoom */
+var _zoom = 1, _panX = 0, _panY = 0, _dragging = false, _dragSX = 0, _dragSY = 0;
+
+function _applyTransform(img){
+  img.style.transform = 'translate('+_panX+'px,'+_panY+'px) scale('+_zoom+')';
+}
+
+function _isPdf(url){
+  /* Check by extension on the path portion, ignoring any query string */
+  if(!url) return false;
+  var path = url.split("?")[0].split("#")[0];
+  return path.toLowerCase().slice(-4) === ".pdf";
+}
+
+function renderScan(){
+  var area = $("dScanArea");
+  _zoom = 1; _panX = 0; _panY = 0;
+
+  if(!cur.scanUrl){
+    area.innerHTML =
+      '<div class="dlg-scan-placeholder">'
+        +'<svg class="i"><use href="#i-doc"/></svg>'
+        +'<strong>No file preview available.</strong>'
+        +'<p>Upload a field service report from the Upload page and the original file will appear here automatically.</p>'
+      +'</div>';
+    return;
+  }
+
+  /* ---- PDF: render in an iframe so the browser's built-in PDF viewer handles it ---- */
+  if(_isPdf(cur.scanUrl)){
+    area.innerHTML =
+      '<iframe id="pdfFrame" src="'+esc(cur.scanUrl)+'" title="Original report PDF for '+esc(cur.id)+'"'
+        +' style="width:100%;height:100%;border:0;display:block;background:var(--bg)">'
+      +'</iframe>'
+      +'<div class="zoom-bar" role="toolbar" aria-label="PDF controls" style="bottom:14px">'
+        +'<a href="'+esc(cur.scanUrl)+'" target="_blank" download'
+          +' style="color:#fff;text-decoration:none;font-size:12px;font-weight:600;padding:0 4px">'
+          +'⬇ Download PDF'
+        +'</a>'
+      +'</div>';
+    return;
+  }
+
+  /* ---- Image (JPG / PNG): pan + zoom viewer ---- */
+  area.innerHTML =
+    '<div class="dlg-scan-img" id="scanImgWrap">'
+      +'<img id="scanImg" src="'+esc(cur.scanUrl)+'" alt="Original field report scan for '+esc(cur.id)+'" draggable="false">'
+    +'</div>'
+    +'<div class="zoom-bar" role="toolbar" aria-label="Image zoom controls">'
+      +'<button id="zOut" title="Zoom out" aria-label="Zoom out">−</button>'
+      +'<span id="zPct">100%</span>'
+      +'<button id="zIn"  title="Zoom in"  aria-label="Zoom in">+</button>'
+      +'<button id="zRst" title="Reset zoom" aria-label="Reset zoom" style="font-size:13px">⟳</button>'
+    +'</div>';
+
+  var wrap = $("scanImgWrap");
+  var img  = $("scanImg");
+
+  function clampPan(){
+    var rect = wrap.getBoundingClientRect();
+    var iw = img.naturalWidth  * _zoom;
+    var ih = img.naturalHeight * _zoom;
+    var maxX = Math.max(0, (iw  - rect.width)  / 2);
+    var maxY = Math.max(0, (ih  - rect.height) / 2);
+    _panX = Math.max(-maxX, Math.min(maxX, _panX));
+    _panY = Math.max(-maxY, Math.min(maxY, _panY));
+  }
+
+  function updateZoom(){
+    clampPan();
+    _applyTransform(img);
+    $("zPct").textContent = Math.round(_zoom * 100) + '%';
+    wrap.style.cursor = _zoom > 1 ? 'grab' : 'default';
+  }
+
+  $("zIn").addEventListener("click",  function(){ _zoom = Math.min(5, parseFloat((_zoom+0.25).toFixed(2))); _panX=0;_panY=0; updateZoom(); });
+  $("zOut").addEventListener("click", function(){ _zoom = Math.max(0.25, parseFloat((_zoom-0.25).toFixed(2))); updateZoom(); });
+  $("zRst").addEventListener("click", function(){ _zoom=1;_panX=0;_panY=0; updateZoom(); });
+
+  area.addEventListener("wheel", function(e){
+    e.preventDefault();
+    var delta = e.deltaY < 0 ? 0.15 : -0.15;
+    _zoom = Math.max(0.25, Math.min(5, parseFloat((_zoom + delta).toFixed(2))));
+    updateZoom();
+  }, {passive: false});
+
+  area.addEventListener("mousedown", function(e){
+    if(_zoom <= 1) return;
+    _dragging = true; _dragSX = e.clientX - _panX; _dragSY = e.clientY - _panY;
+    area.classList.add("grabbing");
+  });
+  window.addEventListener("mousemove", function(e){
+    if(!_dragging) return;
+    _panX = e.clientX - _dragSX; _panY = e.clientY - _dragSY;
+    clampPan(); _applyTransform(img);
+  });
+  window.addEventListener("mouseup",  function(){ _dragging=false; area.classList.remove("grabbing"); });
+
+  var _t0 = null, _tDist0 = 0, _zoom0 = 1, _tpx = 0, _tpy = 0;
+  area.addEventListener("touchstart", function(e){
+    if(e.touches.length === 2){
+      _tDist0 = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      _zoom0 = _zoom;
+    } else if(e.touches.length === 1){
+      _t0 = e.touches[0]; _tpx = _panX; _tpy = _panY;
+    }
+  }, {passive:true});
+  area.addEventListener("touchmove", function(e){
+    e.preventDefault();
+    if(e.touches.length === 2){
+      var d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      _zoom = Math.max(0.25, Math.min(5, parseFloat((_zoom0 * d / _tDist0).toFixed(2))));
+    } else if(e.touches.length === 1 && _t0){
+      _panX = _tpx + e.touches[0].clientX - _t0.clientX;
+      _panY = _tpy + e.touches[0].clientY - _t0.clientY;
+    }
+    clampPan(); _applyTransform(img); $("zPct").textContent = Math.round(_zoom * 100) + '%';
+  }, {passive:false});
+  area.addEventListener("touchend", function(){ _t0=null; });
+
+  area.addEventListener("dblclick", function(){
+    _zoom = _zoom >= 2 ? 1 : Math.min(5, parseFloat((_zoom + 0.75).toFixed(2)));
+    _panX=0; _panY=0; updateZoom();
+  });
+}
+
+/* Build the read-only extracted-data HTML */
+function buildViewHtml(d){
+  /* nlp object is attached to cur when available (from /records) */
+  var nlp = (cur && cur.nlp) ? cur.nlp : null;
+  var nlpFields = (nlp && nlp.fields) ? nlp.fields : {};
+
+  /* NLP badge helper — shown next to field values when NLP ran */
+  function nlpBadge(fieldKey){
+    var f = nlpFields[fieldKey];
+    if(!f) return "";
+    if(f.na) return "";                    /* blank field — no badge */
+    if(f.ok === true && (!f.warnings || !f.warnings.length))
+      return '<span class="nlp-ok good" title="NLP validated">✓</span>';
+    if(f.ok === false && f.warnings && f.warnings.length)
+      return '<span class="nlp-ok fail" title="NLP issue: '+esc(f.warnings.join(', '))+'">⚠ '+esc(f.warnings[0])+'</span>';
+    if(f.warnings && f.warnings.length)
+      return '<span class="nlp-ok warn" title="'+esc(f.warnings.join(', '))+'">'+esc(f.warnings[0])+'</span>';
+    return "";
+  }
+
+  function sec(title, fields){
+    var rows = fields.map(function(f){
+      var val = d[f[1]];
+      if(val === undefined || val === null) val = "—";
+      var badge = nlpBadge(f[2] || "");
+      if(f[3] === "multiline"){
+        return '<dt>'+f[0]+'</dt><dd style="white-space:pre-line">'+esc(val)+badge+'</dd>'
+      }
+      return '<dt>'+f[0]+'</dt><dd>'+esc(val)+badge+'</dd>'
+    }).join("");
+    return '<div class="rsec"><div class="rsec-title">'+title+'</div><dl class="rfields">'+rows+'</dl></div>'
+  }
+
+  var spareHtml;
+  if(d.spareParts && d.spareParts.length){
+    var rows = d.spareParts.map(function(p){
+      return '<tr><td>'+esc(p.ref)+'</td><td>'+esc(p.desc)+'</td><td>'+esc(p.qty)+'</td>'
+            +'<td>'+esc(p.dr)+'</td><td>'+esc(p.sl)+'</td><td>'+esc(p.remarks)+'</td></tr>'
+    }).join("");
+    spareHtml = '<div class="rsec"><div class="rsec-title">Reagents / Spare Parts Used</div>'
+      +'<div style="overflow-x:auto"><table class="items-table"><thead><tr>'
+      +'<th>Ref No.</th><th>Description</th><th>Qty</th><th>DR#</th><th>SL#</th><th>Remarks</th>'
+      +'</tr></thead><tbody>'+rows+'</tbody></table></div></div>'
+  } else {
+    spareHtml = '<div class="rsec"><div class="rsec-title">Reagents / Spare Parts Used</div>'
+      +'<p style="color:var(--muted);font-size:13px;margin:0">No parts or reagents used.</p></div>'
+  }
+
+  /* Tagged action lines */
+  var actionsHtml;
+  var nlpActions = nlp && nlp.actions && nlp.actions.lines;
+  if(nlpActions && nlpActions.length){
+    var lines = nlpActions.map(function(a){
+      var tags = (a.tags || []).map(function(t){
+        return '<span class="nlp-ok good" style="font-size:10px">'+esc(t)+'</span>';
+      }).join(" ");
+      return '<div style="margin-bottom:4px">'+esc(a.text)+(tags?' '+tags:'')+'</div>';
+    }).join("");
+    actionsHtml = '<div style="font-size:13.5px;line-height:1.7">'+lines+'</div>';
+  } else {
+    actionsHtml = '<p style="white-space:pre-line;font-size:13.5px;line-height:1.7;margin:0">'+esc(d.actionsTaken)+'</p>';
+  }
+
+  /* Tagged remark lines */
+  var remarksHtml;
+  var nlpRemarks = nlp && nlp.remarks && nlp.remarks.lines;
+  if(nlpRemarks && nlpRemarks.length){
+    var kindStyle = {
+      "recommendation": "color:var(--orange);font-size:10px",
+      "status":         "color:var(--green);font-size:10px",
+      "measurement":    "color:var(--blue);font-size:10px",
+      "other":          "color:var(--muted);font-size:10px"
+    };
+    var kindLabel = {
+      "recommendation": "⚠ recommendation",
+      "status":         "✓ status",
+      "measurement":    "📏 measurement",
+      "other":          ""
+    };
+    var lines = nlpRemarks.map(function(r){
+      var label = kindLabel[r.kind] || "";
+      var style = kindStyle[r.kind] || "";
+      return '<div style="margin-bottom:4px">'+esc(r.text)
+        +(label ? ' <span style="'+style+'">'+label+'</span>' : '')+'</div>';
+    }).join("");
+    remarksHtml = '<div style="font-size:13.5px;line-height:1.7">'+lines+'</div>';
+  } else {
+    remarksHtml = '<p style="font-size:13.5px;margin:0;line-height:1.6">'+esc(d.remarks)+'</p>';
+  }
+
+  /* NLP summary banner if issues were found */
+  var nlpBanner = "";
+  if(nlpFields && Object.keys(nlpFields).length){
+    var failCount = Object.values(nlpFields).filter(function(f){ return f.ok === false && !f.na; }).length;
+    var warnCount = Object.values(nlpFields).filter(function(f){ return f.warnings && f.warnings.length && f.ok !== false; }).length;
+    if(failCount > 0 || warnCount > 0){
+      nlpBanner = '<div class="edit-banner" style="background:var(--blue-soft);color:var(--blue);border-color:#3c5a7340">'
+        +'<svg class="i"><use href="#i-cpu"/></svg>'
+        +'<span><strong>NLP Analysis</strong> — '
+        +(failCount > 0 ? failCount+' field(s) could not be validated' : '')
+        +(failCount > 0 && warnCount > 0 ? ', ' : '')
+        +(warnCount > 0 ? warnCount+' field(s) have warnings' : '')
+        +'. Look for <span class="nlp-ok fail">⚠</span> badges below.</span></div>';
+    }
+  }
+
+  return nlpBanner
+  + sec("Service Report",[
+    ["Date Start",   "dateStart",  "date_start"],
+    ["Date End",     "dateEnd",    "date_end"],
+    ["Report No.",   "reportNo",   "report_no"]
+  ])
+  + sec("Servicing Details",[
+    ["Institution",  "institution", "institution"],
+    ["Address",      "address",     "address"],
+    ["Equipment",    "equipment",   "equipment"],
+    ["Serial No.",   "serial",      "serial_number"],
+    ["Service Type", "serviceType", ""]
+  ])
+  + sec("Job Type",[["Job Type","jobType",""]])
+  + sec("Problem",[
+    ["Reported Problem","reportedProblem","reported_problem","multiline"],
+    ["Cause of Problem","causeOfProblem", "cause_of_problem","multiline"]
+  ])
+  + '<div class="rsec"><div class="rsec-title">Actions Taken</div>'
+  + actionsHtml + '</div>'
+  + '<div class="rsec"><div class="rsec-title">Remarks &amp; Recommendations</div>'
+  + remarksHtml + '</div>'
+  + sec("Status After Service",[["Status","statusAfter",""]])
+  + spareHtml
+  + sec("Acknowledged By",[["Name","acknowledgedBy",""],["Designation","designation",""]])
+  + sec("Service Provider",[
+    ["Name","serviceProvider",""],["Time In","timeIn","time_in"],
+    ["Time Out","timeOut","time_out"],["Travel Time","travelTime",""]
+  ])
+}
+
+/* Build the editable form HTML */
+function buildSpareRowHtml(p, i){
+  p = p || {ref:"",desc:"",qty:"",dr:"",sl:"",remarks:""};
+  function inp(col, val, wide){
+    return '<td><input class="spare-cell" data-row="'+i+'" data-col="'+col+'" value="'+esc(val||'')+'" style="width:'+(wide?'100%':'60px')+';min-width:'+(wide?'120px':'40px')+';padding:5px 6px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--text);font:inherit;font-size:13px"></td>';
+  }
+  return '<tr data-spare-row="'+i+'">'
+    +inp("ref",p.ref)+inp("desc",p.desc,true)+inp("qty",p.qty)+inp("dr",p.dr)+inp("sl",p.sl)+inp("remarks",p.remarks,true)
+    +'<td><button type="button" class="vbtn" style="background:var(--red);color:#fff;padding:3px 10px;font-size:12px" onclick="removeSpareRow(this)">✕</button></td>'
+    +'</tr>'
+}
+
+function buildSpareEditHtml(parts){
+  parts = parts && parts.length ? parts : [];
+  var rows = parts.map(function(p,i){ return buildSpareRowHtml(p,i) }).join("");
+  return '<div style="overflow-x:auto"><table class="items-table" id="spareTable">'
+    +'<thead><tr><th>Ref No.</th><th>Description</th><th>Qty</th><th>DR#</th><th>SL#</th><th>Remarks</th><th></th></tr></thead>'
+    +'<tbody id="spareTbody">'+rows+'</tbody></table></div>'
+    +'<button type="button" class="btn ghost" style="margin-top:8px;padding:7px 14px;font-size:13px" onclick="addSpareRow()">+ Add Row</button>'
+}
+
+function addSpareRow(){
+  var tbody = $("spareTbody");
+  var nextIdx = tbody.querySelectorAll("tr").length;
+  var tmp = document.createElement("tbody");
+  tmp.innerHTML = buildSpareRowHtml(null, nextIdx);
+  tbody.appendChild(tmp.firstChild);
+}
+
+function removeSpareRow(btn){
+  btn.closest("tr").remove();
+  // re-index rows
+  $("spareTbody").querySelectorAll("tr").forEach(function(tr,i){
+    tr.dataset.spareRow = i;
+    tr.querySelectorAll(".spare-cell").forEach(function(inp){ inp.dataset.row = i });
+  });
+}
+
+function buildEditHtml(d){
+  function field(label, key, multiline){
+    var val = esc(d[key] || "");
+    var ta = '<textarea class="edit-field'+(multiline?' multiline':'')+'" data-key="'+key+'" rows="'+(multiline?4:1)+'">'+val+'</textarea>';
+    return '<dt>'+label+'</dt><dd>'+ta+'</dd>'
+  }
+
+  return '<div class="edit-banner"><svg class="i"><use href="#i-edit"/></svg>'
+    +'<span><strong>Edit Mode</strong> — Correct any OCR errors or spelling mistakes, then save.</span></div>'
+    +'<div class="rsec"><div class="rsec-title">Service Report</div><dl class="rfields">'
+    +field("Date Start","dateStart")+field("Date End","dateEnd")+field("Report No.","reportNo")
+    +'</dl></div>'
+    +'<div class="rsec"><div class="rsec-title">Servicing Details</div><dl class="rfields">'
+    +field("Institution","institution")+field("Address","address")
+    +field("Equipment","equipment")+field("Serial No.","serial")
+    +field("Service Type","serviceType")
+    +'</dl></div>'
+    +'<div class="rsec"><div class="rsec-title">Job Type</div><dl class="rfields">'
+    +'<dt>Job Type</dt><dd>'+buildJobTypeSelect(d.jobType)+'</dd>'
+    +'</dl></div>'
+    +'<div class="rsec"><div class="rsec-title">Problem</div><dl class="rfields">'
+    +field("Reported Problem","reportedProblem",true)
+    +field("Cause of Problem","causeOfProblem",true)+'</dl></div>'
+    +'<div class="rsec"><div class="rsec-title">Actions Taken</div><dl class="rfields">'
+    +field("Actions Taken","actionsTaken",true)+'</dl></div>'
+    +'<div class="rsec"><div class="rsec-title">Remarks &amp; Recommendations</div><dl class="rfields">'
+    +field("Remarks","remarks",true)+'</dl></div>'
+    +'<div class="rsec"><div class="rsec-title">Status After Service</div><dl class="rfields">'
+    +'<dt>Status</dt><dd>'+buildStatusSelect(d.statusAfter)+'</dd>'
+    +'</dl></div>'
+    +'<div class="rsec"><div class="rsec-title">Reagents / Spare Parts Used</div>'
+    +buildSpareEditHtml(d.spareParts)+'</div>'
+    +'<div class="rsec"><div class="rsec-title">Acknowledged By</div><dl class="rfields">'
+    +field("Name","acknowledgedBy")+field("Designation","designation")+'</dl></div>'
+    +'<div class="rsec"><div class="rsec-title">Service Provider</div><dl class="rfields">'
+    +field("Name","serviceProvider")+field("Time In","timeIn")
+    +field("Time Out","timeOut")+field("Travel Time","travelTime")+'</dl></div>'
+}
+
+function openR(id, startEdit){
+  cur = reports.filter(function(r){ return r.id === id })[0];
+  if(!cur) return;
+  editMode = !!startEdit;
+  renderDialog();
+  dlg.showModal();
+  startClock();
+  /* scroll fields panel back to top */
+  setTimeout(function(){ $("dBody").scrollTop = 0 }, 10);
+}
+
+function renderDialog(){
+  var d = cur.data;
+  $("dTitle").textContent = cur.id + " — " + d.institution;
+  $("dPill").innerHTML = pill(cur.s);
+  $("dBody").innerHTML = editMode ? buildEditHtml(d) : buildViewHtml(d);
+  renderScan();
+  renderFoot();
+  if(editMode){
+    wireJobTypeSelect();
+    wireStatusSelect();
+  }
+}
+
+function renderFoot(){
+  var foot = $("dFoot");
+  if(editMode){
+    foot.innerHTML =
+      '<button class="btn ghost" onclick="cancelEdit()">Cancel</button>'
+      +'<button class="btn" style="background:var(--orange)" onclick="saveEdit()">Save Changes</button>'
+      +(cur.s==="For Review"
+        ?'<button class="btn" onclick="saveAndConfirm()">Save &amp; Confirm</button>'
+        :'');
+  } else {
+    foot.innerHTML =
+      (cur.s==="For Review"
+        ?'<button class="btn ghost" onclick="switchEdit()"><svg class="i"><use href="#i-edit"/></svg> Edit</button>'
+         +'<button class="btn" onclick="confirmReport()">Confirm Report</button>'
+        :'<button class="btn ghost" onclick="dlg.close()">Close</button>');
+  }
+}
+
+function switchEdit(){ editMode = true; renderDialog(); $("dBody").scrollTop = 0 }
+function cancelEdit(){ editMode = false; renderDialog(); $("dBody").scrollTop = 0 }
+
+function collectEdits(){
+  /* Textareas and the status select share data-key — sweep them all */
+  $("dBody").querySelectorAll("[data-key]").forEach(function(el){
+    if(el.tagName === "TEXTAREA" || el.tagName === "SELECT"){
+      cur.data[el.dataset.key] = el.value;
+    }
+  });
+  /* Job type is already written to cur.data live by wireJobTypeSelect() — nothing extra needed */
+  /* collect spare parts table */
+  var tbody = $("spareTbody");
+  if(tbody){
+    var parts = [];
+    tbody.querySelectorAll("tr").forEach(function(tr){
+      var cells = {};
+      tr.querySelectorAll(".spare-cell").forEach(function(inp){ cells[inp.dataset.col] = inp.value });
+      if(cells.ref || cells.desc) parts.push({ref:cells.ref||"",desc:cells.desc||"",qty:cells.qty||"",dr:cells.dr||"",sl:cells.sl||"",remarks:cells.remarks||""});
+    });
+    cur.data.spareParts = parts;
+  }
+  cur.client = cur.data.institution || cur.client;
+  cur.date   = cur.data.dateStart   || cur.date;
+}
+
+/* ---- review logging: time study + training data ---- */
+function startClock(){ if(cur && cur.s === "For Review") cur._t0 = Date.now(); }
+function stopClock(){
+  if(cur && cur._t0){ cur.reviewMs = (cur.reviewMs || 0) + (Date.now() - cur._t0); cur._t0 = null; }
+}
+function normPartsForDiff(p){
+  return JSON.stringify((p || []).map(function(x){
+    return ["ref","desc","qty","dr","sl","remarks"].map(function(k){ return String((x && x[k]) || "").trim(); });
+  }));
+}
+function finalizeReview(){
+  stopClock();
+  var pre = cur.prefill || {}, now = cur.data || {}, changed = [];
+  Object.keys(pre).forEach(function(k){
+    var a, b;
+    if(k === "spareParts"){ a = normPartsForDiff(pre[k]); b = normPartsForDiff(now[k]); }
+    else { a = String(pre[k] == null ? "" : pre[k]).trim(); b = String(now[k] == null ? "" : now[k]).trim(); }
+    if(a !== b) changed.push(k);
+  });
+  cur.edited = changed;
+  cur.reviewSec = cur.reviewMs ? Math.round(cur.reviewMs / 1000) : null;
+}
+
+function saveEdit(){
+  collectEdits();
+  editMode = false;
+  savePendingToStorage();
+  renderDialog();
+  render();
+  toast("Changes saved to " + cur.id);
+}
+
+function saveAndConfirm(){
+  collectEdits();
+  cur.s = "Confirmed";
+  cur.confirmedNow = true;
+  editMode = false;
+  dlg.close();
+  savePendingToStorage();
+  render();
+  finalizeReview();
+  pushRecord(cur);
+}
+
+function confirmReport(){
+  cur.s = "Confirmed";
+  cur.confirmedNow = true;
+  dlg.close();
+  savePendingToStorage();
+  render();
+  finalizeReview();
+  pushRecord(cur);
+}
+
+/* close on backdrop click */
+dlg.addEventListener("click", function(e){ if(e.target === dlg) dlg.close() });
+dlg.addEventListener("close", stopClock);
+
+/* =====================================================================
+   CHART  —  driven by actual report data
+   ===================================================================== */
+var _activeRange = "all";
+
+/* Parse a date string from a report into a JS Date (best-effort). */
+function _parseReportDate(s){
+  if(!s || s === "—") return null;
+  var d = new Date(s);
+  if(!isNaN(d.getTime())) return d;
+  var clean = String(s).replace(/[\.,]/g, " ").replace(/\s+/g, " ").trim();
+  var m = clean.match(/^([A-Za-z]+)\s+(\d{1,2})\s+(\d{4})/);
+  if(m){ d = new Date(m[1] + " " + m[2] + ", " + m[3]); if(!isNaN(d.getTime())) return d; }
+  d = new Date(clean);
+  if(!isNaN(d.getTime())) return d;
+  return null;
+}
+
+/* Get the best available timestamp for a report.
+   Priority: confirmed_at ISO string > uploaded_at ISO string > null
+   We deliberately do NOT fall back to the service date (dateStart) because
+   service dates are from 2023–2025 while confirmation timestamps are from
+   2026 — mixing them on one axis produces an unreadable 3-year-wide chart. */
+function _reportTimestamp(r){
+  if(r.confirmed_at){ var d = new Date(r.confirmed_at); if(!isNaN(d.getTime())) return d; }
+  if(r.uploaded_at){  var d = new Date(r.uploaded_at);  if(!isNaN(d.getTime())) return d; }
+  return null;
+}
+
+function drawFromReports(rangeDays){
+  _activeRange = rangeDays;
+  var el = $("chart");
+  if(!el) return;
+
+  var isAllTime = (rangeDays === "all" || rangeDays === 0 || !rangeDays);
+
+  /* Collect all reliable timestamps */
+  var allTimes = [];
+  reports.forEach(function(r){
+    var t = _reportTimestamp(r);
+    if(t) allTimes.push(t.getTime());
+  });
+
+  var now = new Date();
+  var start, end;
+
+  if(isAllTime){
+    if(allTimes.length > 0){
+      start = new Date(Math.min.apply(null, allTimes));
+      end   = new Date(Math.max.apply(null, allTimes));
+    } else {
+      start = new Date(now); start.setDate(start.getDate() - 29);
+      end   = new Date(now);
+    }
+  } else {
+    var days = Number(rangeDays) || 30;
+    end   = new Date(now);
+    start = new Date(now); start.setDate(start.getDate() - days + 1);
+  }
+
+  start.setHours(0,0,0,0);
+  end.setHours(23,59,59,999);
+
+  /* Pad slightly so points on the edge aren't clipped */
+  if(start.getTime() === end.getTime()){
+    start.setDate(start.getDate() - 3);
+    end.setDate(end.getDate() + 3);
+  }
+
+  /* Decide bucket granularity: daily for ≤90 days, weekly for ≤365, monthly otherwise */
+  var spanDays = Math.round((end - start) / (1000*60*60*24)) + 1;
+  var granularity = spanDays <= 90 ? "day" : (spanDays <= 365 ? "week" : "month");
+
+  function bucketKey(d){
+    if(granularity === "day")
+      return d.toISOString().slice(0,10);
+    if(granularity === "week"){
+      var t = new Date(d); t.setHours(0,0,0,0);
+      t.setDate(t.getDate() - t.getDay()); /* Sunday of that week */
+      return t.toISOString().slice(0,10);
+    }
+    /* month */
+    return d.toISOString().slice(0,7);
+  }
+
+  function bucketLabel(key){
+    if(granularity === "month") return key; /* YYYY-MM */
+    return key.slice(5);                    /* MM-DD */
+  }
+
+  /* Build ordered bucket keys */
+  var buckets = {};
+  if(granularity === "day"){
+    for(var c = new Date(start); c <= end; c.setDate(c.getDate()+1))
+      buckets[c.toISOString().slice(0,10)] = {uploaded:0, confirmed:0};
+  } else if(granularity === "week"){
+    for(var c = new Date(start); c <= end; c.setDate(c.getDate()+7)){
+      var wk = bucketKey(c); if(!buckets[wk]) buckets[wk] = {uploaded:0, confirmed:0};
+    }
+  } else {
+    for(var c = new Date(start); c <= end; c.setMonth(c.getMonth()+1)){
+      var mk = c.toISOString().slice(0,7); if(!buckets[mk]) buckets[mk] = {uploaded:0, confirmed:0};
+    }
+  }
+
+  /* Fill buckets */
+  reports.forEach(function(r){
+    var t = _reportTimestamp(r);
+    if(!t || t < start || t > end) return;
+    var k = bucketKey(t);
+    if(buckets[k]){
+      buckets[k].uploaded++;
+      if(r.s === "Confirmed") buckets[k].confirmed++;
+    }
+  });
+
+  var keys   = Object.keys(buckets).sort();
+  var uVals  = keys.map(function(k){ return buckets[k].uploaded; });
+  var cVals  = keys.map(function(k){ return buckets[k].confirmed; });
+  var maxVal = Math.max.apply(null, uVals.concat(cVals).concat([0]));
+
+  var ceil = Math.max(2, Math.ceil(maxVal * 1.3));
+
+  var W = 700, L = 46, B = 200, T = 18, svg = "";
+
+  /* Grid lines + y-axis */
+  var steps = 4;
+  for(var i = 0; i <= steps; i++){
+    var v = Math.round(ceil * i / steps);
+    var y = B - (v / ceil) * (B - T);
+    svg += '<line x1="'+L+'" x2="'+W+'" y1="'+y+'" y2="'+y+'" stroke="var(--line)" stroke-dasharray="'+(i===0?'':'4 3')+'"/>';
+    svg += '<text x="'+(L-6)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+v+'</text>';
+  }
+
+  if(keys.length >= 1){
+    function xOf(i){ return L + 10 + (keys.length === 1 ? (W-L-20)/2 : i*(W-L-20)/(keys.length-1)); }
+    var uPts = keys.map(function(k,i){ return [xOf(i), B-(buckets[k].uploaded/ceil)*(B-T)]; });
+    var cPts = keys.map(function(k,i){ return [xOf(i), B-(buckets[k].confirmed/ceil)*(B-T)]; });
+
+    if(keys.length > 1){
+      /* Shaded area + lines */
+      svg += '<path d="M'+uPts[0][0]+','+B+' L'+uPts.map(function(p){return p.join(",")}).join(" L")
+           + ' L'+uPts[uPts.length-1][0]+','+B+' Z" fill="var(--blue)" fill-opacity="0.09"/>';
+      svg += '<polyline fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linejoin="round" points="'
+           + uPts.map(function(p){return p.join(",")}).join(" ")+'"/>';
+      svg += '<polyline fill="none" stroke="var(--green)" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6 3" points="'
+           + cPts.map(function(p){return p.join(",")}).join(" ")+'"/>';
+    }
+
+    /* Dots — always visible, sized by count */
+    uPts.forEach(function(p,i){
+      var cnt = buckets[keys[i]].uploaded;
+      var r = cnt > 0 ? 5 : 3;
+      svg += '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+r+'" fill="var(--card)" stroke="var(--blue)" stroke-width="2">'
+           + '<title>'+bucketLabel(keys[i])+': '+cnt+' uploaded</title></circle>';
+    });
+    cPts.forEach(function(p,i){
+      var cnt = buckets[keys[i]].confirmed;
+      var r = cnt > 0 ? 5 : 3;
+      svg += '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+r+'" fill="var(--card)" stroke="var(--green)" stroke-width="2">'
+           + '<title>'+bucketLabel(keys[i])+': '+cnt+' confirmed</title></circle>';
+    });
+  }
+
+  /* X-axis labels — up to 7 evenly spaced */
+  if(keys.length > 0){
+    var labelMax = 7;
+    var step = Math.max(1, Math.floor(keys.length / (labelMax - 1)));
+    var shown = [];
+    for(var idx = 0; idx < keys.length; idx += step) shown.push(idx);
+    if(shown[shown.length-1] !== keys.length-1) shown.push(keys.length-1);
+    shown.forEach(function(i){
+      var x = L + 10 + (keys.length === 1 ? (W-L-20)/2 : i*(W-L-20)/(keys.length-1));
+      svg += '<text x="'+x+'" y="222" text-anchor="middle" font-size="11" fill="var(--muted)">'+bucketLabel(keys[i])+'</text>';
+    });
+  }
+
+  /* Granularity label top-right */
+  svg += '<text x="'+(W-4)+'" y="'+(T+2)+'" text-anchor="end" font-size="10" fill="var(--muted)">'
+       + (granularity === "day" ? "Daily" : granularity === "week" ? "Weekly" : "Monthly")
+       + (isAllTime ? " · All Time" : " · Last "+rangeDays+"D")
+       +'</text>';
+
+  if(allTimes.length === 0 || (maxVal === 0 && !isAllTime)){
+    svg += '<text x="'+(W/2)+'" y="'+(B/2+T)+'" text-anchor="middle" font-size="13" fill="var(--muted)">'
+         + (allTimes.length === 0 ? "No confirmed reports yet" : "No activity in this period")
+         +'</text>';
+  }
+
+  el.innerHTML = svg;
+}
+
+function draw(r){ drawFromReports(r); }
+
+$("rangeTabs").addEventListener("click", function(e){
+  var b = e.target.closest("button");
+  if(!b) return;
+  this.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x===b) });
+  var r = b.dataset.r;
+  drawFromReports(r === "all" ? "all" : Number(r));
+});
+
+/* =====================================================================
+   UPLOAD  (real OCR via FastAPI /ocr)
+   ===================================================================== */
+/* Served by FastAPI -> same origin (""). Opened as a file -> talk to localhost. */
+var API = (location.protocol === "file:") ? "http://127.0.0.1:8000" : "";
+var OCR_FIELD = "file";            /* multipart field name expected by POST /ocr */
+var stepEls = $("steps").children;
+
+function setSteps(n){               /* steps before n = done, step n = active */
+  for(var k = 0; k < 4; k++) stepEls[k].className = k < n ? "done" : (k === n ? "now" : "");
+}
+function clean(t){ return String(t || "").replace(/[ \t]+/g," ").replace(/\n{2,}/g,"\n").trim() }
+function zoneText(res, name, multiline){
+  var z = (res.zones || {})[name];
+  if(!z) return "";
+  if(multiline && Array.isArray(z.lines) && z.lines.length){
+    return z.lines.map(function(l){ return clean(typeof l === "string" ? l : (l.text || "")) })
+                  .filter(Boolean).join("\n");
+  }
+  return clean(z.text);
+}
+function norm(s){ return String(s).toLowerCase().replace(/[^a-z0-9]/g,"") }
+
+/* checkbox ids -> job type / sub type / status / internal-external */
+function mapCheckboxes(res){
+  var ids = [];
+  var sel = res.selected || {};
+  Object.keys(sel).forEach(function(g){ (sel[g] || []).forEach(function(id){ ids.push(String(id)) }) });
+  var out = {job:"", sub:"", status:"", svc:"", raw: ids};
+
+  /* Score a match: 3 = exact, 2 = id contains sub, 1 = sub contains id (weakest) */
+  var bestScore = 0;
+
+  ids.forEach(function(id){
+    var n = norm(id);
+    Object.keys(jobTree).forEach(function(job){
+      var subs = jobTree[job].subs || [];
+      subs.forEach(function(sub){
+        var s = norm(sub);
+        var score = 0;
+        if(n === s)                                      score = 3; // exact
+        else if(n.length >= 5 && n === s)                score = 3;
+        else if(n.indexOf(s) > -1 && s.length >= 5)     score = 2; // id contains sub-name
+        else if(s.indexOf(n) > -1 && n.length >= 6)     score = 1; // sub-name contains id
+        if(score > bestScore){ bestScore = score; out.job = job; out.sub = sub; }
+      });
+      /* sub-subs (Repair 1a / 1b) — always exact */
+      var ssMap = jobTree[job].subSubs || {};
+      Object.keys(ssMap).forEach(function(parent){
+        ssMap[parent].forEach(function(ss){
+          if(norm(ss) === n){ bestScore = 3; out.job = job; out.sub = parent + " – " + ss; }
+        });
+      });
+      if(!out.job && n === norm(job)) out.job = job;
+    });
+    if(n.indexOf("non") > -1 && n.indexOf("operational") > -1) out.status = "Non-Operational";
+    else if(n.indexOf("monitor") > -1 && n.indexOf("further") > -1) out.status = "For further monitoring";
+    else if(n.indexOf("operational") > -1 && !out.status) out.status = "Operational";
+    if(n.indexOf("internal") > -1) out.svc = "Internal";
+    if(n.indexOf("external") > -1) out.svc = "External";
+  });
+  return out;
+}
+
+/* parts table rows -> [{ref,desc,qty,dr,sl,remarks}] ; dashes/NA = none */
+function mapParts(res){
+  var rows = (res.table && res.table.rows) || [];
+  var keys = ["ref","desc","qty","dr","sl","remarks"];
+  var empty = function(v){ return !v || /^[-–—\s.]*$/.test(v) || /^n\/?a$/i.test(v.trim()) };
+  return rows.map(function(r){
+    var o = {};
+    keys.forEach(function(k, i){
+      var v = Array.isArray(r) ? r[i] : (r[k] !== undefined ? r[k] : (r.cells ? r.cells[i] : ""));
+      o[k] = clean(typeof v === "object" && v ? v.text : v);
+    });
+    return o;
+  }).filter(function(o){ return !(empty(o.ref) && empty(o.desc)) });
+}
+
+function uniqueId(want){
+  var id = want || ("FSR-" + ("00000" + (reports.length + 1)).slice(-5)), n = 1, base = id;
+  while(reports.some(function(r){ return r.id === id })) id = base + "-" + (++n);
+  return id;
+}
+
+function buildReport(res, name, scanUrl){
+  var cb = mapCheckboxes(res);
+  var inst = zoneText(res,"institution");
+  var d = {
+    institution: inst || "—",
+    address: zoneText(res,"address") || "—",
+    equipment: zoneText(res,"equipment") || "—",
+    serial: zoneText(res,"serial_number") || "—",
+    reportNo: zoneText(res,"report_no") || "—",
+    dateStart: zoneText(res,"date_start") || "—",
+    dateEnd: zoneText(res,"date_end") || "—",
+    serviceType: cb.svc || "—",
+    jobType: cb.job ? (cb.job + (cb.sub ? " – " + cb.sub : "")) : "—",
+    reportedProblem: zoneText(res,"reported_problem") || "—",
+    causeOfProblem: zoneText(res,"cause_of_problem") || "—",
+    actionsTaken: zoneText(res,"actions_taken", true) || "—",
+    remarks: zoneText(res,"remarks", true) || "—",
+    statusAfter: cb.status || "—",
+    spareParts: mapParts(res),
+    acknowledgedBy: zoneText(res,"ack_name") || "—",
+    designation: zoneText(res,"ack_designation") || "—",
+    serviceProvider: zoneText(res,"provider_name") || "—",
+    timeIn: zoneText(res,"time_in") || "—",
+    timeOut: zoneText(res,"time_out") || "—",
+    travelTime: zoneText(res,"travel_time") || "—"
+  };
+  var id = uniqueId(d.reportNo !== "—" ? d.reportNo : "");
+  var snap = function(x){ return x == null ? null : JSON.parse(JSON.stringify(x)); };
+  return {
+    id: id, client: d.institution, date: d.dateStart, s: "For Review",
+    uploaded_at: new Date().toISOString(),
+    job: cb.job || "—", sub: cb.sub || "—",
+    scanUrl: scanUrl || null, scanName: name,
+    nlp: null,   /* populated after confirm via /records response */
+    ocr: {alignment: res.alignment, warnings: res.warnings || [], checked: cb.raw},
+    data: d,
+    prefill: snap(d),
+    ocrZones: snap(res.zones),
+    ocrSelected: snap(res.selected),
+    ocrTable: snap(res.table),
+    edited: [], reviewSec: null
+  };
+}
+
+var queue = [], busy = false;
+function enqueue(files){
+  Array.prototype.forEach.call(files, function(f){ queue.push(f) });
+  if(!busy) next();
+}
+function next(){
+  var f = queue.shift();
+  if(!f){ busy = false; return }
+  busy = true;
+  $("upMsg").textContent = "Uploading " + f.name + "…";
+  setSteps(0);
+  var fd = new FormData(); fd.append(OCR_FIELD, f, f.name);
+  var ctrl = new AbortController(), to = setTimeout(function(){ ctrl.abort() }, 300000);
+  setTimeout(function(){ setSteps(1); $("upMsg").textContent = "Reading " + f.name + " (OCR)…" }, 400);
+  fetch(API + "/ocr", {method:"POST", body:fd, signal:ctrl.signal})
+    .then(function(r){
+      if(!r.ok) return r.text().then(function(t){ throw new Error("Server " + r.status + ": " + t.slice(0,160)) });
+      return r.json();
+    })
+    .then(function(res){
+      clearTimeout(to);
+      console.log("OCR result for", f.name, res);
+      var page = Array.isArray(res.pages) ? res.pages[0] : res;
+      setSteps(2);
+      var rep = buildReport(page, f.name, null);  /* scanUrl set after upload below */
+      setSteps(3);
+      reports.unshift(rep);
+      savePendingToStorage();
+      setSteps(4);
+      var w = (rep.ocr.warnings || []).length;
+      $("upMsg").textContent = f.name + " is ready. It was added to For Review." + (w ? " (" + w + " warning" + (w>1?"s":"") + ")" : "");
+      render(); toast("Report ready for review");
+
+      /* Save the image to the server so the scan preview survives refreshes */
+      var fd2 = new FormData(); fd2.append("file", f, f.name);
+      fetch(API + "/upload-scan", {method:"POST", body:fd2})
+        .then(function(r2){ return r2.ok ? r2.json() : null })
+        .then(function(saved){
+          if(saved && saved.url){
+            rep.scanUrl  = API + saved.url;
+            rep.scanName = saved.filename;
+            savePendingToStorage();
+          }
+        })
+        .catch(function(){/* scan preview will be missing but OCR data is safe */});
+    })
+    .catch(function(err){
+      clearTimeout(to);
+      setSteps(0);
+      var offline = err.name === "AbortError" ? "OCR timed out." : (/Failed to fetch|NetworkError/i.test(err.message) ? "Cannot reach the OCR server at " + (API || location.origin) + ". Is uvicorn running?" : err.message);
+      $("upMsg").textContent = "Could not process " + f.name + ". " + offline;
+      toast("Upload failed");
+    })
+    .finally(function(){ next() });
+}
+
+$("file").addEventListener("change", function(){
+  if(this.files.length) enqueue(this.files);
+  this.value = "";
+});
+$("drop").addEventListener("dragover", function(e){ e.preventDefault(); this.classList.add("drag") });
+$("drop").addEventListener("dragleave", function(){ this.classList.remove("drag") });
+$("drop").addEventListener("drop", function(e){
+  e.preventDefault(); this.classList.remove("drag");
+  if(e.dataTransfer.files.length) enqueue(e.dataTransfer.files);
+});
+
+/* =====================================================================
+   RECORDS  (confirmed reports -> POST /records, mimics a Bitrix create)
+   ===================================================================== */
+function pushRecord(r){
+  var nowIso = new Date().toISOString();
+  r.confirmed_at = r.confirmed_at || nowIso;
+  var body = {
+    id:r.id, status:r.s, confirmed_at:r.confirmed_at, uploaded_at:r.uploaded_at || null, data:r.data, scan_name:r.scanName || null,
+    prefill:r.prefill || null,          // what the form showed before any edits
+    ocr_zones:r.ocrZones || null,       // raw per-zone text + confidence from /ocr
+    ocr_selected:r.ocrSelected || null, // raw checkbox selections from /ocr
+    ocr_table:r.ocrTable || null,
+    edited_fields:r.edited || [],       // keys the reviewer changed
+    review_seconds:r.reviewSec || null  // time the dialog was open
+  };
+  fetch(API + "/records", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)})
+    .then(function(x){
+      if(!x.ok) throw new Error(x.status);
+      return x.json();
+    })
+    .then(function(resp){
+      toast(r.id + " saved to server");
+      /* Back-fill NLP results returned by the server so the view dialog shows badges */
+      if(resp && resp.nlp_ok !== false){
+        fetch(API + "/records/" + encodeURIComponent(r.id))
+          .then(function(y){ return y.ok ? y.json() : null })
+          .then(function(rec){
+            if(rec && rec.nlp){
+              var existing = reports.find(function(x){ return x.id === r.id; });
+              if(existing) existing.nlp = rec.nlp;
+            }
+          }).catch(function(){});
+      }
+    })
+    .catch(function(){ toast(r.id + " confirmed here, but the server could not be reached") });
+}
+function scanUrl(scanName){
+  /* Reconstruct the permanent scan URL from the filename stored on the server.
+     Returns null if no filename is known (older records before this fix). */
+  if(!scanName) return null;
+  return API + "/scans/" + encodeURIComponent(scanName);
+}
+
+function loadRecords(){
+  fetch(API + "/records").then(function(r){ return r.ok ? r.json() : [] }).then(function(list){
+    (list || []).forEach(function(x){
+      var existing = reports.find(function(r){ return r.id === x.id });
+      if(existing){
+        existing.s = x.status || "Confirmed";
+        existing.confirmed_at = x.confirmed_at || existing.confirmed_at;
+        existing.data = x.data || existing.data;
+        existing.nlp  = x.nlp  || existing.nlp || null;
+        /* Restore scan URL if it was lost (e.g. after a refresh) */
+        if(!existing.scanUrl && x.scan_name){
+          existing.scanUrl  = scanUrl(x.scan_name);
+          existing.scanName = x.scan_name;
+        }
+        return;
+      }
+      var job = (x.data && x.data.jobType) ? x.data.jobType : "—";
+      reports.push({
+        id: x.id,
+        client: (x.data && x.data.institution) || "—",
+        date: (x.data && x.data.dateStart) || "—",
+        s: x.status || "Confirmed",
+        confirmed_at: x.confirmed_at || null,
+        job: job,
+        sub: "—",
+        scanUrl: scanUrl(x.scan_name),
+        scanName: x.scan_name,
+        confirmedNow: false,
+        data: x.data || {},
+        nlp: x.nlp || null,
+        prefill: x.prefill || null,
+        ocrZones: x.ocr_zones || null,
+        ocrSelected: x.ocr_selected || null,
+        ocrTable: x.ocr_table || null
+      });
+    });
+    savePendingToStorage();
+    render();
+  }).catch(function(){});
+}
+
+/* =====================================================================
+   EXPORT
+   ===================================================================== */
+function exportCsv(){
+  var c = "Report ID,Client,Service Date,Status\n"
+    + reports.map(function(r){ return [r.id,'"'+r.client+'"',r.date,r.s].join(",") }).join("\n");
+  var a = document.createElement("a");
+  a.href = "data:text/csv;charset=utf-8," + encodeURIComponent(c);
+  a.download = "reports.csv";
+  document.body.appendChild(a); a.click(); a.remove();
+  toast("Exporting reports.csv")
+}
+
+/* =====================================================================
+   CHAT UI  —  calls POST /chat  — conversational NLP assistant
+   ===================================================================== */
+
+var CHAT_SUGGESTIONS = [
+  "Give me an overview of all reports",
+  "Which equipment is overdue for service?",
+  "What patterns do you see across the records?",
+  "Which machines need attention?",
+  "What should we focus on next?",
+  "Show reports with pending recommendations"
+];
+
+function mdToHtml(text){
+  if(!text) return "";
+  return text
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g,"<em>$1</em>")
+    .replace(/⚠/g,'<span style="color:var(--orange)">⚠</span>')
+    .replace(/📋/g,'<span>📋</span>')
+    .replace(/💡/g,'<span>💡</span>')
+    .replace(/📊/g,'<span>📊</span>')
+    .replace(/🔴/g,'<span>🔴</span>')
+    .replace(/🆕/g,'<span>🆕</span>')
+    .replace(/🏥/g,'<span>🏥</span>')
+    .replace(/---\n/g,'<hr style="margin:8px 0;border:0;border-top:1px solid var(--line)">')
+    .replace(/\n• /g,"<br>• ")
+    .replace(/\n  • /g,"<br>&nbsp;&nbsp;• ")
+    .replace(/\n/g,"<br>");
+}
+
+function chatInit(box){
+  var id = box.id;
+  box.innerHTML =
+    '<div class="hd">'
+      +'<span><svg class="i"><use href="#i-bot"/></svg> AI Assistant</span>'
+      +'<span style="display:flex;align-items:center;gap:8px">'
+        +'<span class="on-dot">Online</span>'
+        +'<button class="chat-clear" id="'+id+'Clear" title="Clear chat and reset memory" aria-label="Clear chat">↺ Clear</button>'
+      +'</span>'
+    +'</div>'
+    +'<div class="msgs" id="'+id+'Msgs"></div>'
+    +'<div class="chips" id="'+id+'Chips"></div>'
+    +'<form class="send" id="'+id+'Form">'
+      +'<input placeholder="Ask about reports, trends, suggestions…" aria-label="Message">'
+      +'<button aria-label="Send" type="submit"><svg class="i"><use href="#i-send"/></svg></button>'
+    +'</form>';
+
+  var msgs  = document.getElementById(id+"Msgs");
+  var chips = document.getElementById(id+"Chips");
+  var form  = document.getElementById(id+"Form");
+  var inp   = form.querySelector("input");
+  var clearBtn = document.getElementById(id+"Clear");
+  /* Conversation history — sent to /chat so context carries across turns */
+  var history = [];
+
+  function resetChat(){
+    history = [];
+    msgs.innerHTML = "";
+    chips.innerHTML = "";
+    inp.value = "";
+    addMsg(
+      "Chat cleared. Memory reset — I'm starting fresh. What would you like to know?",
+      false
+    );
+    renderChips();
+  }
+
+  clearBtn.addEventListener("click", resetChat);
+
+  function renderChips(list){
+    var src = list || CHAT_SUGGESTIONS;
+    chips.innerHTML = src.map(function(s){
+      return '<button class="chip" type="button">'+esc(s)+'</button>';
+    }).join("");
+    chips.querySelectorAll("button").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        chips.innerHTML = "";
+        sendMsg(btn.textContent);
+      });
+    });
+  }
+
+  function addMsg(text, isUser, ctxUpdate){
+    var div = document.createElement("div");
+    div.className = "m" + (isUser ? " u" : "");
+    if(isUser){
+      div.textContent = text;
+    } else {
+      div.innerHTML = mdToHtml(text);
+    }
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    /* Store in history for context passing */
+    history.push({
+      role:           isUser ? "user" : "assistant",
+      content:        text,
+      context_update: ctxUpdate || {}
+    });
+    /* Keep history to last 10 turns to avoid oversized payloads */
+    if(history.length > 10) history = history.slice(history.length - 10);
+    return div;
+  }
+
+  function addTyping(){
+    var div = document.createElement("div");
+    div.className = "m";
+    div.innerHTML = '<span style="letter-spacing:3px;color:var(--muted)">•••</span>';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  function sendMsg(text){
+    text = text.trim();
+    if(!text) return;
+    inp.value = "";
+    chips.innerHTML = "";
+    addMsg(text, true);
+    var typing = addTyping();
+
+    fetch(API + "/chat", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({message: text, history: history.slice(0,-1)})
+    })
+    .then(function(r){
+      if(!r.ok) return r.text().then(function(t){ throw new Error("Server " + r.status + ": " + t.slice(0,120)) });
+      return r.json();
+    })
+    .then(function(res){
+      typing.remove();
+      addMsg(res.text || "No answer returned.", false, res.context_update);
+      /* Context-aware follow-up chips */
+      var followups = intentFollowups(res.intent, res.params, res.context_update);
+      if(followups.length) renderChips(followups);
+    })
+    .catch(function(err){
+      typing.remove();
+      var msg = /Failed to fetch|NetworkError/i.test(err.message)
+        ? "Cannot reach the server. Make sure uvicorn is running."
+        : err.message;
+      addMsg("⚠ " + msg, false);
+    });
+  }
+
+  function intentFollowups(intent, params, ctx){
+    ctx = ctx || {};
+    var rid   = ctx.last_report_id;
+    var inst  = ctx.last_institution;
+    var eq    = ctx.last_equipment;
+    if(intent === "lookup" || intent === "summary"){
+      var f = ["Why was it left that way?","What follow-up actions are needed?"];
+      if(eq)   f.push("Show all " + eq + " visits");
+      if(inst) f.push("Other reports at " + inst);
+      if(rid)  f.push("Compare " + rid + " against other visits");
+      return f;
+    }
+    if(intent === "count")               return ["What patterns do you see?","Which equipment is overdue?","Show pending recommendations"];
+    if(intent === "search_institution")  return ["What equipment was serviced there?","Any pending follow-ups there?","Analyse trends across all records"];
+    if(intent === "search_equipment")    return ["Are any non-operational?","What follow-ups are pending?","Which equipment is overdue for service?"];
+    if(intent === "search_status")       return ["Show pending recommendations","Analyse trends","Suggest next steps"];
+    if(intent === "search_recommendations") return ["Which machines are non-operational?","Suggest what to prioritise","Which equipment is overdue?"];
+    if(intent === "analyse_trends")      return ["What should we focus on?","Which equipment is overdue?","Show pending follow-ups"];
+    if(intent === "suggest")             return ["Show all non-operational reports","Analyse trends","List open recommendations"];
+    if(intent === "overdue_pm")          return ["What patterns do you see?","Show non-operational machines","Suggest what to focus on next"];
+    if(intent === "compare_equipment")   return ["Why was it left that way?","What follow-ups are needed?","Analyse all trends"];
+    if(intent === "explain")             return ["Show full report details","Compare against other visits","What follow-ups are needed?"];
+    if(intent === "search_job")          return ["What were the outcomes?","Show non-operational cases","Suggest improvements"];
+    return ["What patterns do you see?","Show pending recommendations","Give me an overview"];
+  }
+
+  /* Greeting */
+  addMsg(
+    "Hello! I'm the SBSI FSR Assistant. I can answer questions about your service records, "
+    + "analyse patterns, spot recurring issues, and suggest what to focus on. "
+    + "Try one of the prompts below, or ask me anything.",
+    false
+  );
+  renderChips();
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    sendMsg(inp.value);
+  });
+}
+
+chatInit($("miniChat"));
+chatInit($("bigChat"));
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+loadPendingFromStorage();
+drawFromReports("all");
+render();
+route();
+loadRecords();
+</script>
+</body>
+</html>

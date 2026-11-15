@@ -1,0 +1,33 @@
+# SBSI equipment lexicon
+# One canonical model name per line.
+# The fuzzy matcher auto-corrects OCR noise variants (e.g. "OL-B+COH" -> "DL-B464",
+# "Ooti Ta2" -> "Opti TS2") against these entries.
+# Use the exact commercial model name as it appears on the equipment label.
+
+# --- Hematology analyzers ---
+Yumizen H500
+Yumizen H500e
+Yumizen H550
+
+# --- Blood gas / point-of-care ---
+Opti TS2
+
+# --- Coagulation / ELISA ---
+CHORUS TRIO
+
+# --- Chemistry analyzers ---
+Exias E1
+Pentra C60
+
+# --- Urinalysis ---
+Urilyzer 100 Pro
+
+# --- Centrifuges ---
+DG Spin
+
+# --- Dry-block heaters / incubators ---
+DG Therm
+
+# --- Slide stainers / other ---
+DL-B464
+PC400

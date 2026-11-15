@@ -1,0 +1,256 @@
+{
+  "id": "fm_ser_03_rev04",
+  "form": "FM-SER-03",
+  "revision": "04",
+  "reference_size": [
+    667,
+    1024
+  ],
+  "_note": "All coordinates are pixels in the reference_size frame (x0, y0, x1, y1). The reference image is templates/fm_ser_03_rev04.png (667x1024). Use the /debug/overlay endpoint to verify zone placement after any edits.",
+  "zones": {
+    "report_no": {
+      "box": [538, 46, 640, 64],
+      "multiline": false
+    },
+    "date_start": {
+      "box": [385, 46, 498, 64],
+      "multiline": false
+    },
+    "institution": {
+      "box": [84, 83, 338, 97],
+      "multiline": false
+    },
+    "address": {
+      "box": [66, 97, 338, 112],
+      "multiline": false
+    },
+    "equipment": {
+      "box": [398, 83, 568, 97],
+      "multiline": false
+    },
+    "serial_number": {
+      "box": [416, 97, 568, 112],
+      "multiline": false
+    },
+    "job_type_mode": {
+      "_note": "Free-write MODE field beside Repair sub-options",
+      "box": [295, 190, 390, 205],
+      "multiline": false
+    },
+    "job_type_others": {
+      "_note": "Free-write OTHERS line in Updates/Training column",
+      "box": [540, 198, 645, 212],
+      "multiline": false
+    },
+    "reported_problem": {
+      "box": [22, 229, 333, 292],
+      "multiline": true
+    },
+    "cause_of_problem": {
+      "box": [336, 229, 642, 292],
+      "multiline": true
+    },
+    "actions_taken": {
+      "box": [22, 322, 642, 548],
+      "multiline": true
+    },
+    "remarks": {
+      "box": [22, 575, 642, 648],
+      "multiline": true
+    },
+    "ack_name": {
+      "box": [80, 757, 330, 772],
+      "multiline": false
+    },
+    "ack_designation": {
+      "box": [80, 772, 330, 787],
+      "multiline": false
+    },
+    "ack_signature": {
+      "_note": "Signature row in Acknowledged by block",
+      "box": [80, 787, 330, 804],
+      "multiline": false
+    },
+    "ack_remarks": {
+      "_note": "Remarks row in Acknowledged by block",
+      "box": [80, 804, 330, 820],
+      "multiline": false
+    },
+    "date_end": {
+      "box": [420, 757, 533, 772],
+      "multiline": false
+    },
+    "time_in": {
+      "box": [562, 757, 640, 772],
+      "multiline": false
+    },
+    "travel_time": {
+      "box": [420, 772, 533, 787],
+      "multiline": false
+    },
+    "time_out": {
+      "box": [562, 772, 640, 787],
+      "multiline": false
+    },
+    "provider_name": {
+      "box": [370, 787, 640, 804],
+      "multiline": false
+    },
+    "provider_signature": {
+      "_note": "Signature row in Service Provider block",
+      "box": [370, 804, 640, 820],
+      "multiline": false
+    }
+  },
+  "table": {
+    "name": "parts_used",
+    "y0": 655,
+    "y1": 745,
+    "rows": 6,
+    "columns": {
+      "reference_no": [24, 121],
+      "description":  [124, 386],
+      "qty":          [390, 422],
+      "dr_no":        [426, 464],
+      "si_no":        [468, 538],
+      "remarks":      [542, 640]
+    }
+  },
+  "checkboxes": {
+    "preventive_maintenance": {
+      "label": "Preventive Maintenance",
+      "group": "job_type",
+      "center": [20, 144]
+    },
+    "monthly_pm": {
+      "label": "Monthly PM",
+      "group": "job_type",
+      "center": [33, 158]
+    },
+    "quarterly_pm": {
+      "label": "Quarterly PM",
+      "group": "job_type",
+      "center": [33, 170]
+    },
+    "six_month_pm": {
+      "label": "Six-Month PM",
+      "group": "job_type",
+      "center": [33, 182]
+    },
+    "yearly_pm": {
+      "label": "Yearly PM",
+      "group": "job_type",
+      "center": [33, 194]
+    },
+    "corrective_maintenance": {
+      "label": "Corrective Maintenance",
+      "group": "job_type",
+      "center": [173, 144]
+    },
+    "repair_1": {
+      "label": "Repair 1",
+      "group": "job_type",
+      "center": [179, 158]
+    },
+    "repair_2": {
+      "label": "Repair 2",
+      "group": "job_type",
+      "center": [179, 170]
+    },
+    "repair_3": {
+      "label": "Repair 3",
+      "group": "job_type",
+      "center": [179, 182]
+    },
+    "repair_4": {
+      "label": "Repair 4",
+      "group": "job_type",
+      "center": [179, 194]
+    },
+    "equipment_handling": {
+      "label": "Equipment Handling",
+      "group": "job_type",
+      "center": [299, 144]
+    },
+    "pack_stock_transfer": {
+      "label": "Pack/Stock/Transfer",
+      "group": "job_type",
+      "center": [304, 158]
+    },
+    "uninstallation": {
+      "label": "Uninstallation",
+      "group": "job_type",
+      "center": [304, 170]
+    },
+    "installation": {
+      "label": "Installation",
+      "group": "job_type",
+      "center": [304, 182]
+    },
+    "result_validation": {
+      "label": "Result Validation",
+      "group": "job_type",
+      "center": [413, 144]
+    },
+    "precision_parallel": {
+      "label": "Precision/Parallel",
+      "group": "job_type",
+      "center": [418, 158]
+    },
+    "calibration": {
+      "label": "Calibration",
+      "group": "job_type",
+      "center": [418, 170]
+    },
+    "quality_control": {
+      "label": "Quality Control",
+      "group": "job_type",
+      "center": [418, 182]
+    },
+    "updates_training": {
+      "label": "Updates/Training",
+      "group": "job_type",
+      "center": [539, 144]
+    },
+    "equipment_updates": {
+      "label": "Equipment Updates",
+      "group": "job_type",
+      "center": [544, 158]
+    },
+    "end_user_training": {
+      "label": "End-user Training",
+      "group": "job_type",
+      "center": [544, 170]
+    },
+    "monitoring_visit": {
+      "label": "Monitoring/Visit",
+      "group": "job_type",
+      "center": [544, 182]
+    },
+    "internal": {
+      "label": "Internal",
+      "group": "service_scope",
+      "center": [586, 83]
+    },
+    "external": {
+      "label": "External",
+      "group": "service_scope",
+      "center": [586, 97]
+    },
+    "operational": {
+      "label": "Operational",
+      "group": "status_after_service",
+      "center": [212, 653]
+    },
+    "for_further_monitoring": {
+      "label": "For further monitoring",
+      "group": "status_after_service",
+      "center": [354, 653]
+    },
+    "non_operational": {
+      "label": "Non-Operational",
+      "group": "status_after_service",
+      "center": [535, 653]
+    }
+  }
+}

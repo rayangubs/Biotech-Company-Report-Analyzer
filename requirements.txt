@@ -1,0 +1,20 @@
+# ---- core (API + preprocessing + checkbox detection) ----
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+numpy>=1.26
+opencv-python-headless>=4.8      # needs SIFT (included since 4.4)
+pillow>=10.0
+pymupdf>=1.24                    # PDF -> image
+
+# ---- OCR engines: install what you want to benchmark ----
+# PaddleOCR (PP-OCR / PaddleOCR-VL tooling). Install paddlepaddle first; use the GPU build if you have CUDA:
+#   pip install paddlepaddle   |   see paddlepaddle.org.cn/install for the CUDA wheel
+#   pip install paddleocr
+# TrOCR (handwriting, line level):
+#   pip install torch transformers
+# Tesseract baseline (also install the tesseract binary):
+#   pip install pytesseract
+
+# ---- dev ----
+pytest>=8.0

@@ -1,0 +1,23 @@
+# SBSI client institution lexicon
+# One canonical name per line.
+# The fuzzy matcher auto-corrects OCR noise variants (e.g. "Bitian" -> "Butuan",
+# "Atventieh" -> "Adventist") against these entries.
+# Keep names exactly as they appear on the official form header.
+
+# --- Mindanao / CDO cluster ---
+Adventist Medical Center - Iligan City
+CMU - University Hospital
+CDO Polymedic Medical Plaza
+Northern Mindanao Medical Center
+RHN - Tagoloan
+AMC - Iligan City
+
+# --- Butuan / Caraga cluster ---
+Butuan Medical Center
+
+# --- Bukidnon / Valencia cluster ---
+Valencia Polymeric General Hospital
+Malaybalay City Health Office
+
+# --- Other confirmed clients ---
+Sacred Heart Diagnostic Center

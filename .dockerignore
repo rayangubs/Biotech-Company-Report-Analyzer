@@ -1,0 +1,43 @@
+# =============================================================================
+# .dockerignore — files excluded from the Docker build context
+# =============================================================================
+# Docker copies your project folder into a temporary build context before
+# running the Dockerfile.  This file tells it what to skip, making builds
+# faster and the image smaller.
+
+# Python bytecode — machine-specific, never needed in the image
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments — the image has its own Python
+.venv/
+venv/
+env/
+
+# OCR cache — auto-regenerates, no point baking into the image
+cache/*.json
+
+# Uploaded scans — user data, managed via Docker volume at runtime
+static/scans/
+
+# Git history — not needed inside the container
+.git/
+.gitignore
+
+# Development and test files
+tests/
+
+# Docker files themselves (no need to copy them into the image)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Editor and OS noise
+.vscode/
+*.DS_Store
+Thumbs.db
+
+# Leftover debug files
+overlay*.png
+benchmark_results.csv

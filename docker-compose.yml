@@ -1,0 +1,55 @@
+# =============================================================================
+# SBSI Field Service Report OCR – Docker Compose
+# =============================================================================
+#
+# Usage:
+#   docker compose up           # start (builds image automatically on first run)
+#   docker compose up --build   # force a rebuild (after changing Dockerfile or requirements)
+#   docker compose down         # stop and remove containers
+#   docker compose logs -f      # follow live logs
+#
+# The app will be available at:  http://localhost:8000
+# API docs will be available at: http://localhost:8000/docs
+# =============================================================================
+
+services:
+  fsr-ocr:
+    # Build the image from the Dockerfile in the current folder.
+    # To use a pre-built image from Docker Hub instead, replace `build: .` with:
+    #   image: yourdockerhubusername/fsr-ocr:latest
+    build: .
+
+    container_name: fsr-ocr
+
+    ports:
+      # host_port:container_port
+      # Change the first number if port 8000 is already in use on your machine.
+      - "8000:8000"
+
+    volumes:
+      # Volumes keep your data alive when the container is stopped or rebuilt.
+      # Without these, every `docker compose down` would wipe your records and scans.
+      #
+      # Format:  ./host/path:/container/path
+      #
+      # Confirmed records (records.jsonl) — persists on the host machine
+      - ./data/records.jsonl:/app/data/records.jsonl
+      # Uploaded scan previews — persists on the host machine
+      - ./static/scans:/app/static/scans
+      # OCR result cache — persists so repeated uploads don't re-run the slow OCR
+      - ./cache:/app/cache
+
+    environment:
+      # Override any config value here without rebuilding the image.
+      # Leave commented out to use the defaults from app/config.py.
+      #
+      # FSR_DEFAULT_ENGINE: paddle       # paddle | trocr | tesseract
+      # FSR_CHECK_THRESHOLD: "0.015"     # checkbox ink threshold
+      # FSR_SCALE: "2.5"                 # canvas upscale factor
+      # FSR_MAX_UPLOAD_MB: "25"          # max upload file size
+      # FSR_CORS_ORIGINS: "http://localhost:3000"  # lock down CORS in production
+      PYTHONUNBUFFERED: "1"
+
+    restart: unless-stopped
+    # "unless-stopped" means the container automatically restarts after a crash
+    # or after the host machine reboots — but NOT if you manually `docker compose down`.
